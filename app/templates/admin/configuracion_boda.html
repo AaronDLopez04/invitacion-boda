@@ -1,0 +1,283 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Configuración de la Boda
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>
+        Configuración de la Boda
+    </h1>
+
+    <p>
+        Modifica la información general que aparece en la invitación.
+    </p>
+
+</div>
+
+<form method="POST">
+
+    <div class="admin-card mb-4">
+
+        <h3>
+            Información General
+        </h3>
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Nombre de la novia
+                </label>
+
+                <input
+                    name="nombre_novia"
+                    class="form-control"
+                    value="{{ boda.nombre_novia }}">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Nombre del novio
+                </label>
+
+                <input
+                    name="nombre_novio"
+                    class="form-control"
+                    value="{{ boda.nombre_novio }}">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Fecha
+                </label>
+
+                <input
+                    name="fecha"
+                    class="form-control"
+                    value="{{ boda.fecha }}">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Hora
+                </label>
+
+                <input
+                    name="hora"
+                    class="form-control"
+                    value="{{ boda.hora }}">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="admin-card mb-4">
+
+        <h3>
+            Historia y Mensajes
+        </h3>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Versículo
+            </label>
+
+            <input
+                name="versiculo"
+                class="form-control"
+                value="{{ boda.versiculo }}">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Mensaje de bienvenida
+            </label>
+
+            <textarea
+                name="mensaje_bienvenida"
+                rows="4"
+                class="form-control">{{ boda.mensaje_bienvenida }}</textarea>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Historia
+            </label>
+
+            <textarea
+                name="historia"
+                rows="10"
+                class="form-control">{{ boda.historia }}</textarea>
+
+        </div>
+
+    </div>
+
+    <div class="admin-card mb-4">
+
+        <h3>
+            Evento
+        </h3>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Lugar del evento
+            </label>
+
+            <input
+                name="lugar_ceremonia"
+                class="form-control"
+                value="{{ boda.lugar_ceremonia }}">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Link de Google Maps
+            </label>
+
+            <input
+                name="direccion_ceremonia"
+                class="form-control"
+                value="{{ boda.direccion_ceremonia }}">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Código de vestimenta
+            </label>
+
+            <input
+                name="codigo_vestimenta"
+                class="form-control"
+                value="{{ boda.codigo_vestimenta }}">
+
+        </div>
+
+    </div>
+
+    <div class="admin-card mb-4">
+
+        <h3>
+            Información Adicional
+        </h3>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Mesa de regalos
+            </label>
+
+            <input
+                name="mesa_regalos"
+                class="form-control"
+                value="{{ boda.mesa_regalos }}">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Hospedaje
+            </label>
+
+            <textarea
+                name="hospedaje"
+                rows="4"
+                class="form-control">{{ boda.hospedaje }}</textarea>
+
+        </div>
+
+    </div>
+
+    <div class="admin-card mb-4">
+
+        <h3>
+            WhatsApp
+        </h3>
+
+        <div class="row">
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">
+                    WhatsApp Novio
+                </label>
+
+                <input
+                    name="whatsapp_novio"
+                    class="form-control"
+                    value="{{ boda.whatsapp_novio }}">
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">
+                    WhatsApp Novia
+                </label>
+
+                <input
+                    name="whatsapp_novia"
+                    class="form-control"
+                    value="{{ boda.whatsapp_novia }}">
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">
+                    WhatsApp Hospedaje
+                </label>
+
+                <input
+                    name="whatsapp_hospedaje"
+                    class="form-control"
+                    value="{{ boda.whatsapp_hospedaje }}">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <button
+        class="btn btn-success btn-lg">
+
+        Guardar Cambios
+
+    </button>
+
+    <a
+        href="{{ url_for('admin.dashboard') }}"
+        class="btn btn-secondary btn-lg">
+
+        Volver
+
+    </a>
+
+</form>
+
+{% endblock %}

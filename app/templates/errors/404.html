@@ -1,0 +1,29 @@
+{% extends "layout/base.html" %}
+
+{% block titulo %}
+Página no encontrada
+{% endblock %}
+
+{% block contenido %}
+
+<section class="error-page">
+
+    <div class="error-card">
+
+        <h1>404</h1>
+
+        <h2>Ups...</h2>
+
+        <p>
+            Parece que esta invitación no existe o el enlace no es correcto.
+        </p>
+
+        <a href="{{ url_for('public.inicio') }}" class="landing-btn">
+            Volver al inicio
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

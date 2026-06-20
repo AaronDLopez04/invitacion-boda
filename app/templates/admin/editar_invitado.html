@@ -1,0 +1,116 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Editar Invitado
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>Editar Invitado</h1>
+
+    <p>
+        Modifica la información del invitado seleccionado.
+    </p>
+
+</div>
+
+<div class="admin-card">
+
+    <form method="POST">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Nombre
+            </label>
+
+            <input
+                type="text"
+                name="nombre"
+                class="form-control"
+                value="{{ invitado.nombre }}"
+                required>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Teléfono
+            </label>
+
+            <input
+                type="text"
+                name="telefono"
+                class="form-control"
+                value="{{ invitado.telefono or '' }}">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Pases
+            </label>
+
+            <input
+                type="number"
+                name="pases"
+                class="form-control"
+                min="1"
+                value="{{ invitado.pases }}"
+                required>
+
+        </div>
+
+        <div class="mb-3">
+
+    <label class="form-label">
+        Mesa asignada
+    </label>
+
+    <select
+        name="mesa_id"
+        class="form-control">
+
+        <option value="">
+            Sin mesa
+        </option>
+
+        {% for mesa in mesas %}
+
+            <option
+                value="{{ mesa.id }}"
+                {% if invitado.mesa_id == mesa.id %}
+                selected
+                {% endif %}>
+
+                {{ mesa.nombre }}
+
+            </option>
+
+        {% endfor %}
+
+    </select>
+
+</div>
+
+        <button class="btn btn-primary">
+            Actualizar
+        </button>
+
+        <a
+            href="{{ url_for('admin.dashboard') }}"
+            class="btn btn-secondary">
+
+            Volver
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

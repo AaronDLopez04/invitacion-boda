@@ -1,0 +1,666 @@
+{% extends "layout/invitacion_base.html" %}
+
+{% block titulo %}
+{{ boda.nombre_novia }} & {{ boda.nombre_novio }}
+{% endblock %}
+
+{% block contenido %}
+
+<div class="invitation">
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <img
+            src="{{ url_for('static', filename='img/portada.jpg') }}"
+            class="hero-image"
+            alt="Portada">
+
+        <div class="hero-overlay">
+
+            <h1 class="hero-title">
+
+                {{ boda.nombre_novia }}
+
+            </h1>
+
+            <div class="hero-and">
+
+                &
+
+            </div>
+
+            <h1 class="hero-title">
+
+                {{ boda.nombre_novio }}
+
+            </h1>
+
+            <div class="hero-date">
+
+                {{ boda.fecha }}
+
+            </div>
+
+            <div class="hero-hour">
+
+                {{ boda.hora }}
+
+            </div>
+
+            <div class="scroll-down">
+
+                ↓
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= CONTADOR ================= -->
+
+    <section class="countdown-section">
+
+        <h2 class="section-title">
+
+            Falta para nuestro gran día
+
+        </h2>
+
+        <div class="countdown-box">
+
+            <h1 id="contador">
+
+                Cargando...
+
+            </h1>
+
+        </div>
+
+    </section>
+
+    <!-- ================= VERSÍCULO ================= -->
+
+    <section class="verse-section">
+
+        <p class="verse">
+
+            "Y sobre todas estas cosas vestíos de amor,
+            que es el vínculo perfecto."
+
+        </p>
+
+        <span>
+
+            Colosenses 3:14
+
+        </span>
+
+    </section>
+
+    <!-- ================= BIENVENIDA ================= -->
+
+    <section class="welcome-section">
+
+        <div class="welcome-card">
+
+            <p class="welcome-small">
+
+                Nos llena de alegría invitar a
+
+            </p>
+
+            <h2>
+
+                {{ invitado.nombre }}
+
+            </h2>
+
+            <div class="divider"></div>
+
+            <p class="welcome-text">
+
+                {{ boda.mensaje_bienvenida }}
+
+            </p>
+
+            <div class="passes">
+
+                Invitación válida para
+
+            </div>
+
+            <div class="pass-number">
+
+                {{ invitado.pases }}
+
+            </div>
+
+            <div class="passes">
+
+                personas
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= HISTORIA ================= -->
+
+    <section class="story-section">
+
+        <div class="story-title">
+
+            <h2>
+
+                NUESTRA
+                <br>
+                HISTORIA
+
+            </h2>
+
+        </div>
+
+        <div class="story-image">
+
+            <img
+                src="{{ url_for('static', filename='img/historia.jpg') }}"
+                alt="Historia">
+
+        </div>
+
+        <div class="story-text">
+
+            <div class="verse">
+
+                {{ boda.versiculo }}
+
+            </div>
+
+                <p class="verse-subtitle">
+
+                "El verdadero autor de nuestra historia es Dios"
+                
+                </p>
+            
+            <div class="divider"></div>
+
+            <p class="story-content">
+                
+                {{ boda.historia }}
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- UBICACIÓN -->
+
+    <!-- ================= LUGAR ================= -->
+
+<section class="event-section">
+
+    <div class="section-header">
+        <span>✦</span>
+        <h2>Lugar del Evento</h2>
+    </div>
+
+    <div class="event-card">
+
+        <h3>
+            {{ boda.lugar_ceremonia }}
+        </h3>
+
+        <a
+    href="{{ boda.direccion_ceremonia }}"
+    target="_blank"
+    class="btn-elegant">
+
+    Ver ubicación
+
+</a>
+
+<div class="event-info-grid">
+
+    <div class="event-info-box">
+
+        <div class="info-icon">
+
+            ☀️
+
+        </div>
+
+        <span class="info-title">
+
+            Clima
+
+        </span>
+
+        <div
+            id="weather-temp"
+            class="info-value">
+
+            Cargando...
+
+        </div>
+
+        <small
+            id="weather-desc">
+
+            Consultando...
+
+        </small>
+
+    </div>
+
+    <div class="event-info-box">
+
+        <div class="info-icon">
+
+            🌧️
+
+        </div>
+
+        <span class="info-title">
+
+            Lluvia
+
+        </span>
+
+        <div
+            id="weather-rain"
+            class="info-value">
+
+        </div>
+
+        <small
+            id="weather-advice">
+
+        </small>
+
+    </div>
+    <div class="event-info-box">
+
+    <div class="info-icon">
+
+        🌿
+
+    </div>
+
+    <span class="info-title">
+
+        Recomendación
+
+    </span>
+
+    <div class="info-value">
+
+        Jardín
+
+    </div>
+
+    <small>
+
+        Debido a que la celebración será al aire libre, te recomendamos usar calzado cómodo y considerar un abrigo ligero para la tarde.
+
+    </small>
+
+</div>
+
+</div>
+</section>
+
+<!-- ================= VESTIMENTA ================= -->
+
+<section class="dress-section">
+
+    <div class="section-header">
+        <span>✦</span>
+        <h2>Código de Vestimenta</h2>
+    </div>
+
+    <div class="dress-card">
+
+        <p class="codigo_vestimenta">
+            Etiqueta formal - Evento de jardín
+        </p>
+
+        <!-- Pinterest Board Embed -->
+        <div style="margin-top:20px;">
+            <a data-pin-do="embedBoard"
+               data-pin-board-width="900"
+               data-pin-scale-height="400"
+               data-pin-scale-width="80"
+               href="{{ boda.codigo_vestimenta }}">
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= REGALOS ================= -->
+
+<section class="gift-section">
+
+    <div class="section-header">
+
+        <span>✦</span>
+
+        <h2>Mesa de Regalos</h2>
+
+    </div>
+
+    <div class="gift-card">
+
+        <div class="gift-icon">
+
+            🎁
+
+        </div>
+
+        <p>
+
+            Tu presencia es nuestro mejor regalo,
+            pero si deseas tener un detalle con nosotros,
+            puedes visitar nuestra mesa de regalos.
+
+        </p>
+
+        <a
+            href="{{ boda.mesa_regalos }}"
+            target="_blank"
+            class="btn-elegant">
+
+            Ver Mesa de Regalos
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- ================= HOSPEDAJE ================= -->
+
+<section class="hotel-section">
+
+    <div class="section-header">
+
+        <span>✦</span>
+
+        <h2>Hospedaje</h2>
+
+    </div>
+
+    <div class="hotel-card">
+
+        <div class="hotel-icon">
+
+            🏨
+
+        </div>
+
+        <p>
+
+            {{ boda.hospedaje }}
+
+        </p>
+
+            <a
+
+                href="https://wa.me/{{ boda.whatsapp_hospedaje|replace('+','') }}"
+
+                target="_blank"
+
+                class="btn-elegant">
+
+                WhatsApp
+
+            </a>
+
+    </div>
+
+</section>
+
+<!-- ================= VIDEO ================= -->
+
+<section class="video-section">
+
+    <div class="section-header">
+
+        <span>✦</span>
+
+        <h2>El momento de la pedida</h2>
+
+    </div>
+
+    <div class="video-container">
+
+        <video controls class="wedding-video">
+
+            <source
+                src="{{ url_for('static', filename='video/pedida.mp4') }}"
+                type="video/mp4">
+
+            Tu navegador no soporta video HTML5.
+
+        </video>
+
+    </div>
+
+</section>
+
+<!-- ================= FOTO FINAL ================= -->
+
+
+    <section class="photo-section">
+
+        <img
+            src="{{ url_for('static', filename='img/pareja1.jpg') }}"
+            class="large-photo"
+            alt="Pareja">
+
+    </section>
+
+<!-- ================= CONTACTO ================= -->
+
+<section class="contact-section">
+
+    <div class="section-header">
+
+        <span>✦</span>
+
+        <h2>Contacto</h2>
+
+    </div>
+
+    <div class="contact-grid">
+
+        <div class="contact-card">
+
+            <h3>
+
+                Novio
+
+            </h3>
+
+            <a
+
+                href="https://wa.me/{{ boda.whatsapp_novio|replace('+','') }}"
+
+                target="_blank"
+
+                class="btn-elegant">
+
+                WhatsApp
+
+            </a>
+
+        </div>
+
+        <div class="contact-card">
+
+            <h3>
+
+                Novia
+
+            </h3>
+
+            <a
+
+                href="https://wa.me/{{ boda.whatsapp_novia|replace('+','') }}"
+
+                target="_blank"
+
+                class="btn-elegant">
+
+                WhatsApp
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= RSVP ================= -->
+
+<section class="rsvp-section">
+
+    <div class="section-header">
+
+        <span>✦</span>
+
+        <h2>Confirmación de Asistencia</h2>
+
+    </div>
+
+    {% if invitado.fecha_confirmacion %}
+
+    <div class="confirmed-card">
+
+        <div class="check">
+
+            ✓
+
+        </div>
+
+        <h3>
+
+            Gracias por responder
+
+        </h3>
+
+        <p>
+
+            Personas confirmadas:
+            {{ invitado.asistentes_confirmados }}
+
+        </p>
+
+    </div>
+
+    {% else %}
+
+    <form
+
+        method="POST"
+
+        action="{{ url_for('invitados.confirmar_asistencia', token=invitado.token) }}"
+
+        class="rsvp-form">
+
+        <div class="form-group">
+
+            <label>
+
+                ¿Asistirás?
+
+            </label>
+
+            <select
+
+                name="respuesta"
+
+                class="form-control">
+
+                <option value="si">
+
+                    Sí asistiré
+
+                </option>
+
+                <option value="no">
+
+                    No podré asistir
+
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                ¿Cuántas personas asistirán?
+
+            </label>
+
+            <input
+
+                type="number"
+
+                name="asistentes"
+
+                min="0"
+
+                max="{{ invitado.pases }}"
+
+                value="{{ invitado.pases }}"
+
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Comentarios
+
+            </label>
+
+            <textarea
+
+                rows="5"
+
+                name="comentarios"
+
+                class="form-control"></textarea>
+
+        </div>
+
+        <button
+
+            class="btn-elegant">
+
+            Confirmar asistencia
+
+        </button>
+
+    </form>
+
+    {% endif %}
+
+</section>
+
+</div>
+<script async defer src="https://assets.pinterest.com/js/pinit.js"></script>
+
+{% endblock %}

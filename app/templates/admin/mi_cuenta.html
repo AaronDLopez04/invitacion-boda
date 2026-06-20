@@ -1,0 +1,146 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Mi Cuenta
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>Mi Cuenta</h1>
+
+    <p>
+        Cambia el usuario y contraseña del panel administrativo.
+    </p>
+
+</div>
+
+<div class="admin-card">
+
+    {% if mensaje %}
+
+        <div class="alert alert-success">
+            {{ mensaje }}
+        </div>
+
+    {% endif %}
+
+    {% if error %}
+
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+    <form method="POST">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Usuario
+            </label>
+
+            <input
+                type="text"
+                name="usuario"
+                class="form-control"
+                value="{{ admin.usuario }}"
+                required>
+
+        </div>
+
+        <hr>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Contraseña actual
+            </label>
+
+            <input
+                type="password"
+                name="password_actual"
+                class="form-control password-field">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Nueva contraseña
+            </label>
+
+            <input
+                type="password"
+                name="password_nuevo"
+                class="form-control password-field">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Confirmar nueva contraseña
+            </label>
+
+            <input
+                type="password"
+                name="password_confirmar"
+                class="form-control password-field">
+
+        </div>
+
+        <div class="form-check mb-4">
+
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="mostrarPassword">
+
+            <label
+                class="form-check-label"
+                for="mostrarPassword">
+
+                Mostrar contraseñas
+
+            </label>
+
+        </div>
+
+        <button class="btn btn-success">
+            Guardar cambios
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+
+const mostrarPassword =
+    document.getElementById("mostrarPassword");
+
+const campos =
+    document.querySelectorAll(".password-field");
+
+mostrarPassword.addEventListener(
+    "change",
+    () => {
+
+        campos.forEach(campo => {
+
+            campo.type =
+                mostrarPassword.checked
+                    ? "text"
+                    : "password";
+
+        });
+
+    }
+);
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,357 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Check-in
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>
+        Check-in
+    </h1>
+
+    <p>
+        Escanea el QR del invitado o escribe manualmente su token.
+    </p>
+
+</div>
+
+<div class="admin-card mb-4">
+
+    <h3>
+        Escáner QR
+    </h3>
+
+    <p>
+        Usa la cámara del celular para escanear la credencial del invitado.
+    </p>
+
+    <div class="checkin-scanner-box">
+
+        <div id="reader"></div>
+            <p
+                id="scanner-message"
+                class="text-muted mt-3">
+
+                Esperando QR...
+
+            </p>
+
+    </div>
+
+    <div class="mt-3">
+
+        <button
+            type="button"
+            class="btn btn-primary"
+            onclick="iniciarScanner()">
+
+            Activar cámara
+
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="detenerScanner()">
+
+            Detener cámara
+
+        </button>
+
+    </div>
+
+</div>
+
+<div class="admin-card mb-4">
+
+    <form
+        method="POST"
+        id="checkin-form">
+
+        <label class="form-label">
+            Token de invitación
+        </label>
+
+        <div class="input-group">
+
+            <input
+                type="text"
+                name="token"
+                id="token-input"
+                class="form-control"
+                placeholder="Ejemplo: ABC123"
+                required>
+
+            <button class="btn btn-primary">
+                Buscar
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% if error %}
+
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+
+{% endif %}
+
+{% if invitado %}
+
+<div class="admin-card">
+
+    <h2>
+        {{ invitado.nombre }}
+    </h2>
+
+    <p>
+        Invitación válida para:
+        <strong>{{ invitado.pases }}</strong>
+        personas
+    </p>
+
+    <p>
+        Ingresadas:
+        <strong>
+            {{ invitado.personas_ingresadas or 0 }}
+            /
+            {{ invitado.pases }}
+        </strong>
+    </p>
+
+    {% if invitado.mesa %}
+
+    <p>
+        Mesa:
+        <strong>
+            {{ invitado.mesa.nombre }}
+        </strong>
+    </p>
+
+    {% endif %}
+
+    {% if invitado.checkin_completo %}
+
+        <div class="alert alert-success">
+            ✓ Check-in completo
+        </div>
+
+    {% else %}
+
+        <form
+            method="POST"
+            action="{{ url_for('admin.registrar_checkin', id=invitado.id) }}">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Personas que ingresan ahora
+                </label>
+
+                <input
+                    type="number"
+                    name="cantidad"
+                    min="1"
+                    max="{{ invitado.pases - (invitado.personas_ingresadas or 0) }}"
+                    value="{{ invitado.pases - (invitado.personas_ingresadas or 0) }}"
+                    class="form-control">
+
+            </div>
+
+            <button class="btn btn-success">
+                Registrar entrada
+            </button>
+
+        </form>
+
+    {% endif %}
+
+    {% if invitado.hora_ingreso %}
+
+    <hr>
+
+    <p>
+        Último registro:
+        {{ invitado.hora_ingreso }}
+    </p>
+
+    {% endif %}
+
+</div>
+
+{% endif %}
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+
+let html5QrCode = null;
+let qrDetectado = false;
+
+function extraerToken(texto) {
+
+    try {
+
+        const url = new URL(texto);
+        const partes = url.pathname.split("/");
+
+        return partes[partes.length - 1];
+
+    } catch (error) {
+
+        return texto.trim();
+
+    }
+}
+
+function reproducirSonido() {
+
+    const audio = new Audio(
+        "https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
+    );
+
+    audio.play();
+
+}
+
+function mostrarMensajeQR() {
+
+    const mensaje = document.getElementById(
+        "scanner-message"
+    );
+
+    if (mensaje) {
+
+        mensaje.innerHTML =
+            "✅ QR detectado correctamente";
+
+        mensaje.classList.remove(
+            "text-muted"
+        );
+
+        mensaje.classList.add(
+            "text-success"
+        );
+
+    }
+}
+
+function iniciarScanner() {
+
+    qrDetectado = false;
+
+    const readerId = "reader";
+
+    html5QrCode = new Html5Qrcode(
+        readerId
+    );
+
+    Html5Qrcode.getCameras().then(cameras => {
+
+        if (cameras && cameras.length) {
+
+            let cameraId = cameras[0].id;
+
+            const camaraTrasera = cameras.find(camera =>
+                camera.label.toLowerCase().includes("back") ||
+                camera.label.toLowerCase().includes("rear") ||
+                camera.label.toLowerCase().includes("environment")
+            );
+
+            if (camaraTrasera) {
+
+                cameraId = camaraTrasera.id;
+
+            }
+
+            html5QrCode.start(
+                cameraId,
+                {
+                    fps: 10,
+                    qrbox: {
+                        width: 250,
+                        height: 250
+                    }
+                },
+                qrCodeMessage => {
+
+                    if (qrDetectado) {
+
+                        return;
+
+                    }
+
+                    qrDetectado = true;
+
+                    const token = extraerToken(
+                        qrCodeMessage
+                    );
+
+                    document.getElementById(
+                        "token-input"
+                    ).value = token;
+
+                    mostrarMensajeQR();
+
+                    if (navigator.vibrate) {
+
+                        navigator.vibrate(
+                            200
+                        );
+
+                    }
+
+                    reproducirSonido();
+
+                    setTimeout(() => {
+
+                        detenerScanner();
+
+                        document.getElementById(
+                            "checkin-form"
+                        ).submit();
+
+                    }, 600);
+
+                },
+                errorMessage => {
+                }
+            );
+
+        }
+
+    }).catch(err => {
+
+        alert(
+            "No se pudo acceder a la cámara. Revisa los permisos del navegador."
+        );
+
+    });
+}
+
+function detenerScanner() {
+
+    if (html5QrCode) {
+
+        html5QrCode.stop().then(() => {
+
+            html5QrCode.clear();
+
+            html5QrCode = null;
+
+        }).catch(err => {
+        });
+
+    }
+}
+
+</script>
+
+{% endblock %}

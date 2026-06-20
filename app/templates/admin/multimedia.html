@@ -1,0 +1,95 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Multimedia
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>Multimedia</h1>
+
+    <p>
+        Cambia las fotografías y el video principal de la invitación.
+    </p>
+
+</div>
+
+<div class="admin-card">
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Foto de portada
+            </label>
+
+            <input
+                type="file"
+                name="portada"
+                class="form-control"
+                accept="image/*">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Foto de historia
+            </label>
+
+            <input
+                type="file"
+                name="historia"
+                class="form-control"
+                accept="image/*">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Foto final
+            </label>
+
+            <input
+                type="file"
+                name="pareja1"
+                class="form-control"
+                accept="image/*">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Video de la pedida
+            </label>
+
+            <input
+                type="file"
+                name="video"
+                class="form-control"
+                accept="video/mp4">
+
+        </div>
+
+        <button class="btn btn-success">
+            Guardar multimedia
+        </button>
+
+        <a
+            href="{{ url_for('admin.dashboard') }}"
+            class="btn btn-secondary">
+
+            Volver
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

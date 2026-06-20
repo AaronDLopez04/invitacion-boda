@@ -1,0 +1,81 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Nuevo Invitado
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>Nuevo Invitado</h1>
+
+    <p>
+        Agrega un nuevo invitado y genera automáticamente su enlace personalizado.
+    </p>
+
+</div>
+
+<div class="admin-card">
+
+    <form method="POST">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Nombre
+            </label>
+
+            <input
+                type="text"
+                name="nombre"
+                class="form-control"
+                required>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Teléfono
+            </label>
+
+            <input
+                type="text"
+                name="telefono"
+                class="form-control">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Pases
+            </label>
+
+            <input
+                type="number"
+                name="pases"
+                class="form-control"
+                min="1"
+                required>
+
+        </div>
+
+        <button class="btn btn-success">
+            Guardar invitado
+        </button>
+
+        <a
+            href="{{ url_for('admin.dashboard') }}"
+            class="btn btn-secondary">
+
+            Volver
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

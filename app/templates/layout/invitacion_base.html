@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link
+    rel="manifest"
+    href="{{ url_for('static', filename='manifest.json') }}">
+
+    <link
+    rel="icon"
+    href="{{ url_for('static', filename='img/favicon.png') }}">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1">
+
+    <meta
+    name="description"
+    content="Invitación digital de boda de Eunice y Magdiel.">
+
+<meta
+    property="og:title"
+    content="Eunice & Magdiel">
+
+<meta
+    property="og:description"
+    content="Nos sentimos muy felices de compartir este día tan especial contigo.">
+
+<meta
+    property="og:image"
+    content="{{ url_for('static', filename='img/portada.jpg', _external=True) }}">
+
+<meta
+    property="og:type"
+    content="website">
+
+<meta
+    name="theme-color"
+    content="#B59673">
+
+    <title>
+
+        {% block titulo %}
+
+        Nuestra Boda
+
+        {% endblock %}
+
+    </title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+        'static',
+        filename='css/style.css'
+        ) }}">
+
+</head>
+
+<body>
+    <div id="preloader">
+
+    <div class="preloader-content">
+
+        <h1>
+            E & M
+        </h1>
+
+        <p>
+            Cargando nuestra historia...
+        </p>
+
+    </div>
+
+</div>
+
+    {% block contenido %}
+
+    {% endblock %}
+
+<script
+src="{{ url_for(
+'static',
+filename='js/main.js'
+) }}">
+
+</script>
+<script>
+
+const elementos =
+document.querySelectorAll(
+'.fade-section'
+);
+
+const observer =
+new IntersectionObserver(
+(entries)=>{
+
+entries.forEach(
+(entry)=>{
+
+if(
+entry.isIntersecting
+){
+
+entry.target.classList.add(
+'visible'
+);
+
+}
+
+});
+
+},
+{
+threshold:0.1
+}
+);
+
+elementos.forEach(
+(el)=>observer.observe(el)
+);
+
+</script>
+<button id="backToTop" class="back-to-top">
+    ↑
+</button>
+</body>
+
+</html>

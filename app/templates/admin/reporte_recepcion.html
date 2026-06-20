@@ -1,0 +1,131 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Reporte de Recepción
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header no-print">
+
+    <h1>Reporte de Recepción</h1>
+
+    <p>
+        Lista imprimible para apoyo el día del evento.
+    </p>
+
+    <button
+        onclick="window.print()"
+        class="btn btn-success">
+
+        Imprimir / Guardar PDF
+
+    </button>
+
+</div>
+
+<div class="print-report">
+
+    <div class="print-title">
+
+        <h1>
+            {{ boda.nombre_novia }} & {{ boda.nombre_novio }}
+        </h1>
+
+        <p>
+            Reporte de recepción
+        </p>
+
+    </div>
+
+    {% for mesa in mesas %}
+
+        <div class="print-section">
+
+            <h2>
+                {{ mesa.nombre }}
+            </h2>
+
+            <table class="print-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Invitado</th>
+                        <th>Pases</th>
+                        <th>Confirmados</th>
+                        <th>Ingresados</th>
+                        <th>Check</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for invitado in mesa.invitados %}
+
+                        <tr>
+                            <td>{{ invitado.nombre }}</td>
+                            <td>{{ invitado.pases }}</td>
+                            <td>{{ invitado.asistentes_confirmados or 0 }}</td>
+                            <td>{{ invitado.personas_ingresadas or 0 }}</td>
+                            <td>☐</td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% endfor %}
+
+    {% if invitados_sin_mesa %}
+
+        <div class="print-section">
+
+            <h2>
+                Sin mesa
+            </h2>
+
+            <table class="print-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Invitado</th>
+                        <th>Pases</th>
+                        <th>Confirmados</th>
+                        <th>Ingresados</th>
+                        <th>Check</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for invitado in invitados_sin_mesa %}
+
+                        <tr>
+                            <td>{{ invitado.nombre }}</td>
+                            <td>{{ invitado.pases }}</td>
+                            <td>{{ invitado.asistentes_confirmados or 0 }}</td>
+                            <td>{{ invitado.personas_ingresadas or 0 }}</td>
+                            <td>☐</td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

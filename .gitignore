@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Entorno virtual
+venv/
+env/
+.venv/
+
+# Variables secretas
+.env
+
+# Base de datos
+*.db
+instance/
+
+# Archivos generados
+app/static/qr/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/

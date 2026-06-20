@@ -1,0 +1,397 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Mesas
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>
+        Gestor de Mesas
+    </h1>
+
+    <p>
+        Organiza visualmente a los invitados por mesa.
+    </p>
+
+</div>
+
+<div class="admin-card mb-4">
+
+    <h3>
+        Crear nueva mesa
+    </h3>
+
+    <form method="POST">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Nombre de la mesa
+                </label>
+
+                <input
+                    name="nombre"
+                    class="form-control"
+                    placeholder="Mesa 1"
+                    required>
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">
+                    Capacidad
+                </label>
+
+                <input
+                    type="number"
+                    name="capacidad"
+                    class="form-control"
+                    min="1"
+                    value="10"
+                    required>
+
+            </div>
+
+            <div class="col-md-2 mb-3 d-flex align-items-end">
+
+                <button class="btn btn-success w-100">
+                    Crear
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+<div class="mesas-board">
+
+    <div class="mesa-column sin-mesa-column">
+
+        <div class="mesa-column-header">
+
+            <h3>
+                👥 Sin mesa
+            </h3>
+
+            <span>
+                {{ invitados_sin_mesa|length }} grupos
+            </span>
+
+        </div>
+
+        <div
+        class="mesa-drop-zone"
+        data-mesa-id="sin-mesa">
+
+            {% if invitados_sin_mesa %}
+
+                {% for invitado in invitados_sin_mesa %}
+
+                    <div
+                    class="guest-card"
+                    draggable="true"
+                    data-invitado-id="{{ invitado.id }}">
+
+                        <div>
+
+                            <strong>
+                                {{ invitado.nombre }}
+                            </strong>
+
+                            <small>
+                                {{ invitado.pases }} pases
+                            </small>
+
+                        </div>
+
+                        <span class="guest-status">
+
+                            {% if invitado.respuesta == "si" %}
+                                ✅ Confirmó
+                            {% elif invitado.respuesta == "no" %}
+                                ❌ No asistirá
+                            {% else %}
+                                ⏳ Pendiente
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="empty-message">
+                    Todos los invitados tienen mesa.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% for mesa in mesas %}
+
+        {% set personas = namespace(total=0) %}
+
+        {% for invitado in mesa.invitados %}
+
+            {% set personas.total = personas.total + invitado.pases %}
+
+        {% endfor %}
+
+        {% set porcentaje = 0 %}
+
+        {% if mesa.capacidad > 0 %}
+
+            {% set porcentaje = (personas.total * 100 / mesa.capacidad) | round(0, 'floor') %}
+
+        {% endif %}
+
+        <div class="mesa-column">
+
+            <div class="mesa-column-header">
+
+                <div>
+
+                    <h3>
+                        🍽 {{ mesa.nombre }}
+                    </h3>
+
+                    <span>
+                        {{ personas.total }} / {{ mesa.capacidad }} lugares
+                    </span>
+
+                </div>
+
+                <a
+                    href="{{ url_for('admin.eliminar_mesa', id=mesa.id) }}"
+                    class="btn btn-sm btn-outline-danger"
+                    onclick="return confirm('¿Eliminar mesa? Los invitados quedarán sin mesa.')">
+
+                    Eliminar
+
+                </a>
+
+            </div>
+
+            <div class="mesa-progress-wrapper">
+
+                <div
+                    class="mesa-progress {% if personas.total > mesa.capacidad %}mesa-progress-danger{% endif %}"
+                    style="--progress: {{ porcentaje if porcentaje <= 100 else 100 }}%;">
+
+                </div>
+
+            </div>
+
+            {% if personas.total > mesa.capacidad %}
+
+                <div class="mesa-warning">
+                    ⚠ Esta mesa supera su capacidad.
+                </div>
+
+            {% elif personas.total == mesa.capacidad %}
+
+                <div class="mesa-success">
+                    ✓ Mesa completa.
+                </div>
+
+            {% endif %}
+
+            <div
+            class="mesa-drop-zone"
+            data-mesa-id="{{ mesa.id }}">
+
+                {% if mesa.invitados %}
+
+                    {% for invitado in mesa.invitados %}
+
+                        <div
+                        class="guest-card"
+                        draggable="true"
+                        data-invitado-id="{{ invitado.id }}">
+
+                            <div>
+
+                                <strong>
+                                    {{ invitado.nombre }}
+                                </strong>
+
+                                <small>
+                                    {{ invitado.pases }} pases
+                                </small>
+
+                            </div>
+
+                            <span class="guest-status">
+
+                                {% if invitado.respuesta == "si" %}
+                                    ✅ Confirmó
+                                {% elif invitado.respuesta == "no" %}
+                                    ❌ No asistirá
+                                {% else %}
+                                    ⏳ Pendiente
+                                {% endif %}
+
+                            </span>
+
+                            <a
+                                href="{{ url_for('admin.quitar_mesa', invitado_id=invitado.id) }}"
+                                class="btn btn-sm btn-outline-secondary mt-2">
+
+                                Quitar
+
+                            </a>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p class="empty-message">
+                        Arrastra invitados aquí próximamente.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+<script>
+
+let invitadoArrastrado = null;
+
+document.querySelectorAll(
+    ".guest-card"
+).forEach(card => {
+
+    card.addEventListener(
+        "dragstart",
+        () => {
+
+            invitadoArrastrado = card;
+
+            card.classList.add(
+                "dragging"
+            );
+
+        }
+    );
+
+    card.addEventListener(
+        "dragend",
+        () => {
+
+            card.classList.remove(
+                "dragging"
+            );
+
+        }
+    );
+
+});
+
+document.querySelectorAll(
+    ".mesa-drop-zone"
+).forEach(zone => {
+
+    zone.addEventListener(
+        "dragover",
+        event => {
+
+            event.preventDefault();
+
+            zone.classList.add(
+                "drop-active"
+            );
+
+        }
+    );
+
+    zone.addEventListener(
+        "dragleave",
+        () => {
+
+            zone.classList.remove(
+                "drop-active"
+            );
+
+        }
+    );
+
+    zone.addEventListener(
+        "drop",
+        event => {
+
+            event.preventDefault();
+
+            zone.classList.remove(
+                "drop-active"
+            );
+
+            if (!invitadoArrastrado) {
+                return;
+            }
+
+            const invitadoId =
+                invitadoArrastrado.dataset.invitadoId;
+
+            const mesaId =
+                zone.dataset.mesaId;
+
+            fetch(
+                "{{ url_for('admin.asignar_mesa_rapido') }}",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        invitado_id: invitadoId,
+                        mesa_id: mesaId
+                    })
+                }
+            )
+            .then(response => response.json())
+            .then(data => {
+
+                if (data.ok) {
+
+                    zone.appendChild(
+                        invitadoArrastrado
+                    );
+
+                    setTimeout(() => {
+                        location.reload();
+                    }, 300);
+
+                }
+
+            });
+
+        }
+    );
+
+});
+
+</script>
+
+{% endblock %}

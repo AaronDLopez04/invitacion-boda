@@ -1,0 +1,371 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Dashboard de Boda
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>
+        Dashboard
+    </h1>
+
+    <p>
+        Gestión de invitados para la boda de Eunice & Magdiel.
+    </p>
+
+</div>
+
+<div class="admin-actions">
+
+    <a
+        href="{{ url_for('admin.nuevo_invitado') }}"
+        class="btn btn-primary">
+
+        ➕ Nuevo Invitado
+
+    </a>
+
+    <div class="dropdown">
+
+    <button
+        class="btn btn-success dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown">
+
+        📥 Exportar
+
+    </button>
+
+    <ul class="dropdown-menu">
+
+        <li>
+            <a
+                class="dropdown-item"
+                href="{{ url_for('admin.exportar_invitados') }}">
+
+                👥 Invitados
+
+            </a>
+        </li>
+
+        <li>
+            <a
+                class="dropdown-item"
+                href="{{ url_for('admin.exportar_confirmaciones') }}">
+
+                ✅ Confirmaciones
+
+            </a>
+        </li>
+
+        <li>
+            <a
+                class="dropdown-item"
+                href="{{ url_for('admin.exportar_estadisticas') }}">
+
+                📈 Estadísticas
+
+            </a>
+        </li>
+
+        <li>
+            <a
+                class="dropdown-item"
+                href="{{ url_for('admin.exportar_mesas') }}">
+
+                🍽 Mesas
+
+            </a>
+        </li>
+
+        <li>
+            <a
+                class="dropdown-item"
+                href="{{ url_for('admin.exportar_checkin') }}">
+
+                🚪 Check-in
+
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+    <a
+        href="{{ url_for('admin.configuracion_boda') }}"
+        class="btn btn-warning">
+
+        ⚙️ Configuración
+
+    </a>
+
+    <a
+        href="{{ url_for('admin.multimedia') }}"
+        class="btn btn-info">
+
+        📷 Multimedia
+
+    </a>
+
+</div>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h5>👥 Invitados</h5>
+
+        <h2>{{ total_invitados }}</h2>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h5>🎟️ Pases</h5>
+
+        <h2>{{ total_pases }}</h2>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h5>✅ Asistentes</h5>
+
+        <h2>{{ asistentes_confirmados }}</h2>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h5>❌ No asistirán</h5>
+
+        <h2>{{ no_asistiran }}</h2>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h5>🚪 Ingresaron</h5>
+
+        <h2>{{ personas_ingresadas }}</h2>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <h5>⏳ Por llegar</h5>
+
+        <h2>{{ personas_por_llegar }}</h2>
+
+
+    </div>
+
+    <div class="stat-card">
+
+        <h5>✅ Check-in completo</h5>
+
+        <h2>{{ checkin_completos }}</h2>
+
+    </div>
+
+</div>
+
+<div class="admin-card mb-4">
+
+    <h5>
+        Avance de confirmaciones
+    </h5>
+
+    <div class="progress">
+
+        <div
+            class="progress-bar"
+            role="progressbar"
+            style="width: {{ porcentaje }}%;">
+
+            {{ porcentaje }}%
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="admin-card">
+
+    <form
+        method="GET"
+        class="mb-4">
+
+        <input
+            type="text"
+            name="q"
+            value="{{ busqueda }}"
+            placeholder="Buscar invitado..."
+            class="form-control">
+
+    </form>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+            <tr>
+
+                <th>Invitado</th>
+
+                <th>Teléfono</th>
+
+                <th>Pases</th>
+
+                <th>Respuesta</th>
+
+                <th>Asistirán</th>
+
+                <th>Acciones</th>
+
+                <th>Check-in</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for invitado in invitados %}
+
+            <tr>
+
+                <td>
+                    {{ invitado.nombre }}
+                </td>
+
+                <td>
+                    {{ invitado.telefono }}
+                </td>
+
+                <td>
+                    {{ invitado.pases }}
+                </td>
+                <td>
+
+                {{ invitado.personas_ingresadas or 0 }}
+                /
+                {{ invitado.pases }}
+
+                </td>
+
+                <td>
+
+                    {% if invitado.respuesta == "si" %}
+
+                        <span class="badge bg-success">
+                            Sí asistirán
+                        </span>
+
+                    {% elif invitado.respuesta == "no" %}
+
+                        <span class="badge bg-danger">
+                            No asistirán
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-warning text-dark">
+                            Pendiente
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+                    {{ invitado.asistentes_confirmados }}
+                </td>
+
+                <td>
+
+                    <a
+                        href="/i/{{ invitado.token }}"
+                        target="_blank"
+                        class="btn btn-sm btn-info">
+
+                        Ver
+
+                    </a>
+
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-secondary"
+                        onclick="copiarEnlace('/i/{{ invitado.token }}')">
+
+                        Copiar
+
+                    </button>
+
+                    <a
+                        href="{{ url_for('admin.editar_invitado', id=invitado.id) }}"
+                        class="btn btn-sm btn-primary">
+
+                        Editar
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('admin.ver_qr', id=invitado.id) }}"
+                        class="btn btn-sm btn-dark">
+
+                        QR
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('admin.eliminar_invitado', id=invitado.id) }}"
+                        class="btn btn-sm btn-danger"
+                        onclick="return confirm('¿Eliminar invitado?')">
+
+                        Eliminar
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+function copiarEnlace(ruta) {
+
+    const url =
+        window.location.origin +
+        ruta;
+
+    navigator.clipboard.writeText(
+        url
+    );
+
+    alert(
+        "Enlace copiado"
+    );
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Credencial QR
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>Credencial QR</h1>
+
+    <p>
+        {{ invitado.nombre }}
+    </p>
+
+</div>
+
+<div class="admin-card text-center">
+
+    <img
+        src="{{ url_for('static', filename='qr/' ~ invitado.token ~ '.png') }}"
+        class="img-fluid shadow"
+        style="max-width:420px;border-radius:20px;">
+
+    <br><br>
+
+    <a
+        href="{{ url_for('static', filename='qr/' ~ invitado.token ~ '.png') }}"
+        download
+        class="btn btn-success">
+
+        Descargar credencial
+
+    </a>
+
+    <a
+        href="{{ url_for('admin.dashboard') }}"
+        class="btn btn-secondary">
+
+        Volver
+
+    </a>
+
+</div>
+
+{% endblock %}

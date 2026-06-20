@@ -1,0 +1,183 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Plano del Salón
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <h1>Plano del Salón</h1>
+
+    <p>
+        Arrastra las mesas para acomodarlas visualmente.
+    </p>
+
+</div>
+
+<div class="salon-map" id="salon-map">
+
+    <div class="salon-label altar">
+        💒 Ceremonia / Frente
+    </div>
+
+    {% for mesa in mesas %}
+
+        {% set personas = namespace(total=0) %}
+
+        {% for invitado in mesa.invitados %}
+            {% set personas.total = personas.total + invitado.pases %}
+        {% endfor %}
+
+        {% set porcentaje = 0 %}
+
+        {% if mesa.capacidad > 0 %}
+            {% set porcentaje = (personas.total * 100 / mesa.capacidad) | round(0, 'floor') %}
+        {% endif %}
+
+        <div
+            class="salon-table-card draggable-table"
+            data-mesa-id="{{ mesa.id }}"
+            style="left: {{ mesa.pos_x }}px; top: {{ mesa.pos_y }}px;">
+
+            <h3>
+                🌸 {{ mesa.nombre }}
+            </h3>
+
+            <p>
+                {{ personas.total }} / {{ mesa.capacidad }} lugares
+            </p>
+
+            <div class="mesa-progress-wrapper">
+
+                <div
+                    class="mesa-progress {% if personas.total > mesa.capacidad %}mesa-progress-danger{% endif %}"
+                    style="--progress: {{ porcentaje if porcentaje <= 100 else 100 }}%;">
+
+                </div>
+
+            </div>
+
+            {% if mesa.invitados %}
+
+                <ul>
+
+                    {% for invitado in mesa.invitados[:3] %}
+
+                        <li>
+                            {{ invitado.nombre }}
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+                {% if mesa.invitados|length > 3 %}
+
+                    <small>
+                        + {{ mesa.invitados|length - 3 }} grupos más
+                    </small>
+
+                {% endif %}
+
+            {% else %}
+
+                <small>
+                    Sin invitados asignados
+                </small>
+
+            {% endif %}
+
+        </div>
+
+    {% endfor %}
+
+    <div class="salon-label entrada">
+        🚪 Entrada
+    </div>
+
+</div>
+
+<script>
+
+const salonMap = document.getElementById("salon-map");
+
+document.querySelectorAll(".draggable-table").forEach(table => {
+
+    let offsetX = 0;
+    let offsetY = 0;
+    let isDragging = false;
+
+    table.addEventListener("pointerdown", event => {
+
+        isDragging = true;
+
+        table.setPointerCapture(event.pointerId);
+
+        offsetX = event.clientX - table.offsetLeft;
+        offsetY = event.clientY - table.offsetTop;
+
+        table.classList.add("dragging-table");
+
+    });
+
+    table.addEventListener("pointermove", event => {
+
+        if (!isDragging) {
+            return;
+        }
+
+        const rect = salonMap.getBoundingClientRect();
+
+        let x = event.clientX - rect.left - offsetX;
+        let y = event.clientY - rect.top - offsetY;
+
+        x = Math.max(
+            0,
+            Math.min(x, salonMap.offsetWidth - table.offsetWidth)
+        );
+
+        y = Math.max(
+            80,
+            Math.min(y, salonMap.offsetHeight - table.offsetHeight - 60)
+        );
+
+        table.style.left = x + "px";
+        table.style.top = y + "px";
+
+    });
+
+    table.addEventListener("pointerup", event => {
+
+        if (!isDragging) {
+            return;
+        }
+
+        isDragging = false;
+
+        table.releasePointerCapture(event.pointerId);
+
+        table.classList.remove("dragging-table");
+
+        fetch(
+            "{{ url_for('admin.guardar_posicion_mesa') }}",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    mesa_id: table.dataset.mesaId,
+                    pos_x: parseInt(table.style.left),
+                    pos_y: parseInt(table.style.top)
+                })
+            }
+        );
+
+    });
+
+});
+
+</script>
+{% endblock %}
