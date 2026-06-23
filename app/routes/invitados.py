@@ -32,10 +32,24 @@ def invitacion_personalizada(token):
 
         return "Invitación no encontrada", 404
 
+    spotify_embed = None
+
+    if boda and boda.spotify_url:
+
+        spotify_embed = (
+            boda.spotify_url
+            .replace(
+                "open.spotify.com/",
+                "open.spotify.com/embed/"
+            )
+            .split("?")[0]
+        )
+
     return render_template(
         "public/invitacion_personalizada.html",
         boda=boda,
-        invitado=invitado
+        invitado=invitado,
+        spotify_embed=spotify_embed
     )
 
 

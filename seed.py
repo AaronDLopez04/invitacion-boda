@@ -53,8 +53,11 @@ Hoy, guiados por la fe, decidimos amarnos frente a cualquier circunstancia, con 
 
             whatsapp_novia="+5215572146656",
 
-            whatsapp_hospedaje="+5215559738124"
+            whatsapp_hospedaje="+5215559738124",
 
+            spotify_url="",
+
+            mercado_pago_url=""
         )
 
         db.session.add(

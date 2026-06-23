@@ -199,6 +199,42 @@ Configuración de la Boda
 
         <div class="mb-3">
 
+    <label class="form-label">
+        Mercado Pago
+    </label>
+
+    <input
+        type="text"
+        name="mercado_pago_url"
+        class="form-control"
+        value="{{ boda.mercado_pago_url or '' }}">
+
+    <small class="text-muted">
+        Pega aquí el link de Mercado Pago.
+    </small>
+
+</div>
+
+<div class="mb-3">
+
+    <label class="form-label">
+        Playlist de Spotify
+    </label>
+
+    <input
+        type="text"
+        name="spotify_url"
+        class="form-control"
+        value="{{ boda.spotify_url or '' }}">
+
+    <small class="text-muted">
+        Pega aquí el enlace de una playlist de Spotify.
+    </small>
+
+</div>
+
+        <div class="mb-3">
+
             <label class="form-label">
                 Hospedaje
             </label>
@@ -258,9 +294,6 @@ Configuración de la Boda
                     value="{{ boda.whatsapp_hospedaje }}">
 
             </div>
-
-        </div>
-
     </div>
 
     <button

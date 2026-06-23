@@ -378,8 +378,98 @@
             Ver Mesa de Regalos
 
         </a>
+        <div class="offering-box">
+
+    <p class="offering-message">
+        Gracias por tu apoyo, si está en tu corazón apoyarnos con alguna
+        ofrenda especial, esta es nuestra cuenta.
+    </p>
+
+    <div class="bank-details">
+
+        <div class="bank-detail-row">
+
+            <div>
+                <span class="bank-detail-label">
+                    CLABE
+                </span>
+
+                <strong id="mercado-pago-clabe">
+                    722969010503572758
+                </strong>
+            </div>
+
+            <button
+                type="button"
+                class="copy-bank-button"
+                data-copy="722969010503572758">
+
+                Copiar
+
+            </button>
+
+        </div>
+
+        <div class="bank-detail-row">
+
+            <div>
+                <span class="bank-detail-label">
+                    Beneficiario
+                </span>
+
+                <strong>
+                    Magdiel Lopez Garcia
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="bank-detail-row">
+
+            <div>
+                <span class="bank-detail-label">
+                    Institución
+                </span>
+
+                <strong>
+                    Mercado Pago W
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="bank-detail-row">
+
+            <div>
+                <span class="bank-detail-label">
+                    Celular vinculado a Dimo®
+                </span>
+
+                <strong>
+                    55 4686 4443
+                </strong>
+            </div>
+
+            <button
+                type="button"
+                class="copy-bank-button"
+                data-copy="5546864443">
+
+                Copiar
+
+            </button>
+
+        </div>
 
     </div>
+
+    <p
+        id="copy-bank-message"
+        class="copy-bank-message"
+        aria-live="polite">
+    </p>
+
+</div>
 
 </section>
 
@@ -451,7 +541,39 @@
 
     </div>
 
+<!-- ================= SPOTIFY ================= -->
+
+{% if spotify_embed %}
+
+<section class="spotify-section">
+
+    <div class="section-header">
+
+        <span>✦</span>
+
+        <h2>Nuestra Playlist</h2>
+
+    </div>
+
+    <div class="spotify-card">
+
+        <iframe
+            style="border-radius:20px"
+            src="{{ spotify_embed }}"
+            width="100%"
+            height="352"
+            frameborder="0"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+
+        </iframe>
+
+    </div>
+
 </section>
+
+{% endif %}
 
 <!-- ================= FOTO FINAL ================= -->
 
@@ -661,6 +783,46 @@
 </section>
 
 </div>
+
+<script>
+document.querySelectorAll(".copy-bank-button").forEach((button) => {
+
+    button.addEventListener("click", async () => {
+
+        const value = button.dataset.copy;
+        const message = document.getElementById(
+            "copy-bank-message"
+        );
+
+        try {
+
+            await navigator.clipboard.writeText(value);
+
+            message.textContent = "Dato copiado correctamente.";
+
+            const originalText = button.textContent;
+
+            button.textContent = "Copiado";
+
+            setTimeout(() => {
+
+                button.textContent = originalText;
+                message.textContent = "";
+
+            }, 2000);
+
+        } catch (error) {
+
+            message.textContent =
+                "No se pudo copiar automáticamente. Mantén presionado el dato para copiarlo.";
+
+        }
+
+    });
+
+});
+</script>
+
 <script async defer src="https://assets.pinterest.com/js/pinit.js"></script>
 
 {% endblock %}

@@ -423,7 +423,8 @@ def configuracion_boda():
         boda.whatsapp_novio = request.form["whatsapp_novio"]
         boda.whatsapp_novia = request.form["whatsapp_novia"]
         boda.whatsapp_hospedaje = request.form["whatsapp_hospedaje"]
-
+        boda.spotify_url = request.form.get("spotify_url")
+        boda.mercado_pago_url = request.form.get("mercado_pago_url")
         db.session.commit()
 
         return redirect(

@@ -29,3 +29,5 @@ class Boda(db.Model):
     whatsapp_novio = db.Column(db.String(30))
     whatsapp_novia = db.Column(db.String(30))
     whatsapp_hospedaje = db.Column(db.String(30))
+    spotify_url = db.Column(db.String(500))
+    mercado_pago_url = db.Column(db.String(500))

@@ -9,4 +9,5 @@ qrcode==8.2
 pillow==12.2.0
 requests==2.33.1
 python-dotenv==1.2.2
+psycopg[binary]
 gunicorn
