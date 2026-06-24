@@ -2,9 +2,12 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1">
 
     <title>
         {% block titulo %}
@@ -19,66 +22,316 @@
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/admin.css') }}">
+
 </head>
 
 <body>
+
+{% set endpoint = request.endpoint or '' %}
 
 <div class="admin-layout">
 
     <aside class="admin-sidebar">
 
         <div class="admin-brand">
-            <h2>E & M</h2>
-            <p>Eunice & Magdiel</p>
+
+            <h2>
+                E & M
+            </h2>
+
+            <p>
+                Eunice & Magdiel
+            </p>
+
         </div>
+
 
         <nav class="admin-menu">
 
-            <a href="{{ url_for('admin.dashboard') }}">
-                🏠 Dashboard
-            </a>
+            <!-- ==================================
+                    BODA RELIGIOSA
+            =================================== -->
 
-            <a href="{{ url_for('admin.nuevo_invitado') }}">
-                ➕ Nuevo Invitado
-            </a>
+            <div class="admin-menu-section">
 
-            <a href="{{ url_for('admin.configuracion_boda') }}">
-                ⚙️ Configuración
-            </a>
+                <p class="admin-menu-title">
+                    Boda religiosa
+                </p>
 
-            <a href="{{ url_for('admin.multimedia') }}">
-                📷 Multimedia
-            </a>
+                <a
+                    href="{{ url_for('admin.dashboard') }}"
+                    class="{% if endpoint == 'admin.dashboard' %}active{% endif %}"
+                    {% if endpoint == 'admin.dashboard' %}
+                        aria-current="page"
+                    {% endif %}>
 
-            <a href="{{ url_for('admin.mesas') }}">
-                🍽 Mesas
-            </a>
+                    <span class="admin-menu-icon">
+                        🏠
+                    </span>
 
-            <a href="{{ url_for('admin.checkin') }}">
-                📱 Check-in
-            </a>
+                    Dashboard
 
-            <a href="{{ url_for('admin.plano') }}">
-             🏛 Plano del salón
-            </a>
+                </a>
 
-            <a href="{{ url_for('admin.reporte_recepcion') }}">
-            🖨 Reporte recepción
-            </a>
+                <a
+                    href="{{ url_for('admin.nuevo_invitado') }}"
+                    class="{% if endpoint == 'admin.nuevo_invitado' %}active{% endif %}"
+                    {% if endpoint == 'admin.nuevo_invitado' %}
+                        aria-current="page"
+                    {% endif %}>
 
-            <a href="{{ url_for('admin.mi_cuenta') }}">
-            👤 Mi cuenta
-            </a>
+                    <span class="admin-menu-icon">
+                        ➕
+                    </span>
 
-            <a href="{{ url_for('admin.logout') }}" class="logout">
-                🚪 Cerrar sesión
-            </a>
+                    Nuevo invitado
+
+                </a>
+
+                <a
+                    href="{{ url_for('admin.configuracion_boda') }}"
+                    class="{% if endpoint == 'admin.configuracion_boda' %}active{% endif %}"
+                    {% if endpoint == 'admin.configuracion_boda' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        ⚙️
+                    </span>
+
+                    Configuración
+
+                </a>
+
+                <a
+                    href="{{ url_for('admin.multimedia') }}"
+                    class="{% if endpoint == 'admin.multimedia' %}active{% endif %}"
+                    {% if endpoint == 'admin.multimedia' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        📷
+                    </span>
+
+                    Multimedia
+
+                </a>
+
+                <a
+                    href="{{ url_for('admin.mesas') }}"
+                    class="{% if endpoint == 'admin.mesas' %}active{% endif %}"
+                    {% if endpoint == 'admin.mesas' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        🍽
+                    </span>
+
+                    Mesas
+
+                </a>
+
+                <a
+                    href="{{ url_for('admin.checkin') }}"
+                    class="{% if endpoint == 'admin.checkin' %}active{% endif %}"
+                    {% if endpoint == 'admin.checkin' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        📱
+                    </span>
+
+                    Check-in
+
+                </a>
+
+                <a
+                    href="{{ url_for('admin.plano') }}"
+                    class="{% if endpoint == 'admin.plano' %}active{% endif %}"
+                    {% if endpoint == 'admin.plano' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        🏛
+                    </span>
+
+                    Plano del salón
+
+                </a>
+
+                <a
+                    href="{{ url_for('admin.reporte_recepcion') }}"
+                    class="{% if endpoint == 'admin.reporte_recepcion' %}active{% endif %}"
+                    {% if endpoint == 'admin.reporte_recepcion' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        🖨
+                    </span>
+
+                    Reporte recepción
+
+                </a>
+
+            </div>
+
+
+            <!-- ==================================
+                        BODA CIVIL
+            =================================== -->
+
+            <div class="admin-menu-section admin-menu-section-civil">
+
+                <p class="admin-menu-title">
+                    Boda civil
+                </p>
+
+                <a
+                    href="{{ url_for('admin_civil.dashboard') }}"
+                    class="{% if endpoint == 'admin_civil.dashboard' %}active civil-active{% endif %}"
+                    {% if endpoint == 'admin_civil.dashboard' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        💍
+                    </span>
+
+                    Dashboard civil
+
+                </a>
+
+                <a
+                    href="{{ url_for('admin_civil.nuevo_invitado') }}"
+                    class="{% if endpoint == 'admin_civil.nuevo_invitado' %}active civil-active{% endif %}"
+                    {% if endpoint == 'admin_civil.nuevo_invitado' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        ➕
+                    </span>
+
+                    Nuevo invitado civil
+
+                </a>
+
+                <a
+                    href="{{ url_for('admin_civil.configuracion') }}"
+                    class="{% if endpoint == 'admin_civil.configuracion' %}active civil-active{% endif %}"
+                    {% if endpoint == 'admin_civil.configuracion' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        ⚙️
+                    </span>
+
+                    Configuración civil
+
+                </a>
+
+            </div>
+
+
+            <!-- ==================================
+                          CUENTA
+            =================================== -->
+
+            <div class="admin-menu-section admin-menu-account">
+
+                <p class="admin-menu-title">
+                    Cuenta
+                </p>
+
+                <a
+                    href="{{ url_for('admin.mi_cuenta') }}"
+                    class="{% if endpoint == 'admin.mi_cuenta' %}active{% endif %}"
+                    {% if endpoint == 'admin.mi_cuenta' %}
+                        aria-current="page"
+                    {% endif %}>
+
+                    <span class="admin-menu-icon">
+                        👤
+                    </span>
+
+                    Mi cuenta
+
+                </a>
+
+                <a
+                    href="{{ url_for('admin.logout') }}"
+                    class="logout">
+
+                    <span class="admin-menu-icon">
+                        🚪
+                    </span>
+
+                    Cerrar sesión
+
+                </a>
+
+            </div>
 
         </nav>
 
     </aside>
 
+
     <main class="admin-content">
+
+        {% if endpoint.startswith('admin_civil.') %}
+
+        <div class="admin-context-banner admin-context-civil">
+
+            <span>
+                💍
+            </span>
+
+            <div>
+
+                <strong>
+                    Administrando: Boda civil
+                </strong>
+
+                <small>
+                    Los datos de esta sección son independientes
+                    de la boda religiosa.
+                </small>
+
+            </div>
+
+        </div>
+
+        {% elif endpoint.startswith('admin.') and endpoint != 'admin.login' %}
+
+        <div class="admin-context-banner admin-context-religiosa">
+
+            <span>
+                ✦
+            </span>
+
+            <div>
+
+                <strong>
+                    Administrando: Boda religiosa
+                </strong>
+
+                <small>
+                    Invitación principal de Eunice y Magdiel.
+                </small>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
 
         {% block contenido %}
         {% endblock %}
@@ -87,8 +340,9 @@
 
 </div>
 
+
 <script
-src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
 </script>
 
 </body>

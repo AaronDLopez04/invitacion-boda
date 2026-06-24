@@ -1,0 +1,128 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Nuevo Invitado Civil
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <span
+        class="badge rounded-pill
+               text-bg-info mb-2">
+
+        Boda civil
+
+    </span>
+
+    <h1>
+        Nuevo invitado civil
+    </h1>
+
+    <p>
+        Esta invitación será independiente
+        de la boda religiosa.
+    </p>
+
+</div>
+
+
+<div class="admin-card">
+
+    {% if error %}
+
+    <div class="alert alert-danger">
+
+        {{ error }}
+
+    </div>
+
+    {% endif %}
+
+    <form method="POST">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Nombre del invitado o familia
+            </label>
+
+            <input
+                type="text"
+                name="nombre"
+                class="form-control"
+                value="{{ request.form.get(
+                    'nombre',
+                    ''
+                ) }}"
+                placeholder="Ejemplo: Familia López García"
+                required>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Teléfono
+            </label>
+
+            <input
+                type="tel"
+                name="telefono"
+                class="form-control"
+                value="{{ request.form.get(
+                    'telefono',
+                    ''
+                ) }}"
+                placeholder="Opcional">
+
+        </div>
+
+        <div class="mb-4">
+
+            <label class="form-label">
+                Número de pases
+            </label>
+
+            <input
+                type="number"
+                name="pases"
+                class="form-control"
+                value="{{ request.form.get(
+                    'pases',
+                    '1'
+                ) }}"
+                min="1"
+                max="20"
+                required>
+
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Crear invitación civil
+
+            </button>
+
+            <a
+                href="{{ url_for(
+                    'admin_civil.dashboard'
+                ) }}"
+                class="btn btn-outline-secondary">
+
+                Cancelar
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

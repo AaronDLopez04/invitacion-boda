@@ -26,7 +26,9 @@ def invitacion():
 
     if not invitado:
 
-        return "No hay invitados registrados todavía."
+        return render_template(
+    "errors/invitacion_no_disponible.html"
+), 404
 
     return redirect(
         url_for(

@@ -1,194 +1,114 @@
 {% extends "admin/layout/admin_base.html" %}
 
 {% block titulo %}
-Dashboard de Boda
+Dashboard de la Boda Religiosa
 {% endblock %}
 
 {% block contenido %}
 
+<!-- ==================================
+              ENCABEZADO
+=================================== -->
+
 <div class="admin-header">
 
-    <h1>
-        Dashboard
-    </h1>
+    <div
+        class="d-flex flex-wrap
+               justify-content-between
+               align-items-center gap-3">
 
-    <p>
-        Gestión de invitados para la boda de Eunice & Magdiel.
-    </p>
+        <div>
 
-</div>
+            <span
+                class="badge rounded-pill
+                       dashboard-religious-badge mb-2">
 
-<div class="admin-actions">
+                Boda religiosa
 
-    <a
-        href="{{ url_for('admin.nuevo_invitado') }}"
-        class="btn btn-primary">
+            </span>
 
-        ➕ Nuevo Invitado
+            <h1>
+                Eunice & Magdiel
+            </h1>
 
-    </a>
+            <p>
+                Administración de invitados,
+                confirmaciones, mesas y recepción.
+            </p>
 
-    <div class="dropdown">
+        </div>
 
-    <button
-        class="btn btn-success dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown">
+        <div class="d-flex flex-wrap gap-2">
 
-        📥 Exportar
-
-    </button>
-
-    <ul class="dropdown-menu">
-
-        <li>
             <a
-                class="dropdown-item"
-                href="{{ url_for('admin.exportar_invitados') }}">
+                href="{{ url_for('admin.nuevo_invitado') }}"
+                class="btn btn-primary">
 
-                👥 Invitados
+                Nuevo invitado
 
             </a>
-        </li>
 
-        <li>
             <a
-                class="dropdown-item"
-                href="{{ url_for('admin.exportar_confirmaciones') }}">
+                href="{{ url_for('admin.configuracion_boda') }}"
+                class="btn btn-outline-primary">
 
-                ✅ Confirmaciones
+                Configuración
 
             </a>
-        </li>
 
-        <li>
-            <a
-                class="dropdown-item"
-                href="{{ url_for('admin.exportar_estadisticas') }}">
+            <div class="dropdown">
 
-                📈 Estadísticas
+                <button
+                    class="btn btn-outline-secondary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
 
-            </a>
-        </li>
+                    Exportar
 
-        <li>
-            <a
-                class="dropdown-item"
-                href="{{ url_for('admin.exportar_mesas') }}">
+                </button>
 
-                🍽 Mesas
+                <ul class="dropdown-menu dropdown-menu-end">
 
-            </a>
-        </li>
+                    <li>
 
-        <li>
-            <a
-                class="dropdown-item"
-                href="{{ url_for('admin.exportar_checkin') }}">
+                        <a
+                            class="dropdown-item"
+                            href="{{ url_for('admin.exportar_invitados') }}">
 
-                🚪 Check-in
+                            Lista de invitados
 
-            </a>
-        </li>
+                        </a>
 
-    </ul>
+                    </li>
 
-</div>
+                    <li>
 
-    <a
-        href="{{ url_for('admin.configuracion_boda') }}"
-        class="btn btn-warning">
+                        <a
+                            class="dropdown-item"
+                            href="{{ url_for('admin.exportar_confirmaciones') }}">
 
-        ⚙️ Configuración
+                            Confirmaciones
 
-    </a>
+                        </a>
 
-    <a
-        href="{{ url_for('admin.multimedia') }}"
-        class="btn btn-info">
+                    </li>
 
-        📷 Multimedia
+                    <li>
 
-    </a>
+                        <a
+                            class="dropdown-item"
+                            href="{{ url_for('admin.exportar_estadisticas') }}">
 
-</div>
+                            Estadísticas
 
-<div class="stats-grid">
+                        </a>
 
-    <div class="stat-card">
+                    </li>
 
-        <h5>👥 Invitados</h5>
+                </ul>
 
-        <h2>{{ total_invitados }}</h2>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h5>🎟️ Pases</h5>
-
-        <h2>{{ total_pases }}</h2>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h5>✅ Asistentes</h5>
-
-        <h2>{{ asistentes_confirmados }}</h2>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h5>❌ No asistirán</h5>
-
-        <h2>{{ no_asistiran }}</h2>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h5>🚪 Ingresaron</h5>
-
-        <h2>{{ personas_ingresadas }}</h2>
-
-    </div>
-
-
-    <div class="stat-card">
-
-        <h5>⏳ Por llegar</h5>
-
-        <h2>{{ personas_por_llegar }}</h2>
-
-
-    </div>
-
-    <div class="stat-card">
-
-        <h5>✅ Check-in completo</h5>
-
-        <h2>{{ checkin_completos }}</h2>
-
-    </div>
-
-</div>
-
-<div class="admin-card mb-4">
-
-    <h5>
-        Avance de confirmaciones
-    </h5>
-
-    <div class="progress">
-
-        <div
-            class="progress-bar"
-            role="progressbar"
-            style="width: {{ porcentaje }}%;">
-
-            {{ porcentaje }}%
+            </div>
 
         </div>
 
@@ -196,150 +116,646 @@ Dashboard de Boda
 
 </div>
 
+
+<!-- ==================================
+          ESTADÍSTICAS PRINCIPALES
+=================================== -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="admin-card religious-stat-card h-100">
+
+            <div class="religious-stat-icon">
+                👥
+            </div>
+
+            <div>
+
+                <p class="religious-stat-label">
+                    Invitaciones
+                </p>
+
+                <h2>
+                    {{ total_invitados }}
+                </h2>
+
+                <small>
+                    Familias o invitados registrados
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="admin-card religious-stat-card h-100">
+
+            <div class="religious-stat-icon">
+                🎟️
+            </div>
+
+            <div>
+
+                <p class="religious-stat-label">
+                    Pases disponibles
+                </p>
+
+                <h2>
+                    {{ total_pases }}
+                </h2>
+
+                <small>
+                    Personas invitadas en total
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="admin-card religious-stat-card h-100">
+
+            <div class="religious-stat-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <p class="religious-stat-label">
+                    Personas confirmadas
+                </p>
+
+                <h2>
+                    {{ asistentes_confirmados }}
+                </h2>
+
+                <small>
+                    Asistentes que respondieron que sí
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="admin-card religious-stat-card h-100">
+
+            <div class="religious-stat-icon">
+                ⏳
+            </div>
+
+            <div>
+
+                <p class="religious-stat-label">
+                    Invitaciones pendientes
+                </p>
+
+                <h2>
+                    {{ pendientes }}
+                </h2>
+
+                <small>
+                    Aún no han respondido
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================
+       PROGRESO Y RESUMEN RSVP
+=================================== -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-8">
+
+        <div class="admin-card h-100">
+
+            <div
+                class="d-flex justify-content-between
+                       align-items-center gap-3 mb-3">
+
+                <div>
+
+                    <h3 class="mb-1">
+                        Progreso de confirmación
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Personas confirmadas respecto
+                        al total de pases disponibles.
+                    </p>
+
+                </div>
+
+                <span class="religious-progress-number">
+
+                    {{ porcentaje }}%
+
+                </span>
+
+            </div>
+
+
+            <div
+                class="progress religious-progress"
+                role="progressbar"
+                aria-label="Progreso de confirmaciones"
+                aria-valuenow="{{ porcentaje }}"
+                aria-valuemin="0"
+                aria-valuemax="100">
+
+                <div
+                    class="progress-bar"
+                    style="width: {{ porcentaje }}%;">
+
+                </div>
+
+            </div>
+
+
+            <div class="religious-progress-details">
+
+                <span>
+
+                    <strong>
+                        {{ asistentes_confirmados }}
+                    </strong>
+
+                    confirmados
+
+                </span>
+
+                <span>
+
+                    <strong>
+                        {{ total_pases }}
+                    </strong>
+
+                    pases totales
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="admin-card h-100">
+
+            <h3 class="mb-4">
+                Resumen de respuestas
+            </h3>
+
+            <div class="religious-summary-list">
+
+                <div class="religious-summary-item">
+
+                    <span>
+                        Invitaciones pendientes
+                    </span>
+
+                    <strong>
+                        {{ pendientes }}
+                    </strong>
+
+                </div>
+
+                <div class="religious-summary-item">
+
+                    <span>
+                        Pases que no asistirán
+                    </span>
+
+                    <strong>
+                        {{ no_asistiran }}
+                    </strong>
+
+                </div>
+
+                <div class="religious-summary-item">
+
+                    <span>
+                        Confirmados
+                    </span>
+
+                    <strong>
+                        {{ asistentes_confirmados }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================
+             RECEPCIÓN
+=================================== -->
+
+<div class="admin-card mb-4">
+
+    <div
+        class="d-flex flex-wrap
+               justify-content-between
+               align-items-center gap-3 mb-4">
+
+        <div>
+
+            <h3 class="mb-1">
+                Estado de la recepción
+            </h3>
+
+            <p class="text-muted mb-0">
+                Resumen de las personas que han
+                ingresado mediante el check-in.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('admin.checkin') }}"
+            class="btn btn-outline-primary">
+
+            Abrir check-in
+
+        </a>
+
+    </div>
+
+
+    <div class="row g-3">
+
+        <div class="col-md-4">
+
+            <div class="religious-reception-card">
+
+                <span class="religious-reception-icon">
+                    ✓
+                </span>
+
+                <div>
+
+                    <small>
+                        Personas ingresadas
+                    </small>
+
+                    <strong>
+                        {{ personas_ingresadas }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="religious-reception-card">
+
+                <span class="religious-reception-icon">
+                    ◷
+                </span>
+
+                <div>
+
+                    <small>
+                        Personas por llegar
+                    </small>
+
+                    <strong>
+                        {{ personas_por_llegar }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="religious-reception-card">
+
+                <span class="religious-reception-icon">
+                    🎫
+                </span>
+
+                <div>
+
+                    <small>
+                        Invitaciones completas
+                    </small>
+
+                    <strong>
+                        {{ checkin_completos }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================
+          LISTA DE INVITADOS
+=================================== -->
+
 <div class="admin-card">
 
-    <form
-        method="GET"
-        class="mb-4">
+    <div
+        class="d-flex flex-wrap
+               justify-content-between
+               align-items-center gap-3 mb-4">
 
-        <input
-            type="text"
-            name="q"
-            value="{{ busqueda }}"
-            placeholder="Buscar invitado..."
-            class="form-control">
+        <div>
 
-    </form>
+            <h3 class="mb-1">
+                Invitados de la boda religiosa
+            </h3>
+
+            <p class="text-muted mb-0">
+                Consulta, comparte y administra
+                todas las invitaciones.
+            </p>
+
+        </div>
+
+
+        <form
+            method="GET"
+            class="religious-search-form">
+
+            <input
+                type="search"
+                name="q"
+                class="form-control"
+                value="{{ busqueda or '' }}"
+                placeholder="Buscar invitado">
+
+            <button
+                type="submit"
+                class="btn btn-outline-primary">
+
+                Buscar
+
+            </button>
+
+            {% if busqueda %}
+
+            <a
+                href="{{ url_for('admin.dashboard') }}"
+                class="btn btn-outline-secondary">
+
+                Limpiar
+
+            </a>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+
+    {% if invitados %}
 
     <div class="table-responsive">
 
-        <table class="table table-hover align-middle">
+        <table class="table align-middle religious-table">
 
             <thead>
 
-            <tr>
+                <tr>
 
-                <th>Invitado</th>
+                    <th>
+                        Invitado
+                    </th>
 
-                <th>Teléfono</th>
+                    <th>
+                        Teléfono
+                    </th>
 
-                <th>Pases</th>
+                    <th class="text-center">
+                        Pases
+                    </th>
 
-                <th>Respuesta</th>
+                    <th>
+                        Respuesta
+                    </th>
 
-                <th>Asistirán</th>
+                    <th class="text-center">
+                        Asistirán
+                    </th>
 
-                <th>Acciones</th>
+                    <th class="text-end">
+                        Acciones
+                    </th>
 
-                <th>Check-in</th>
-
-            </tr>
+                </tr>
 
             </thead>
 
             <tbody>
 
-            {% for invitado in invitados %}
+                {% for invitado in invitados %}
 
-            <tr>
+                <tr>
 
-                <td>
-                    {{ invitado.nombre }}
-                </td>
+                    <td>
 
-                <td>
-                    {{ invitado.telefono }}
-                </td>
+                        <strong>
+                            {{ invitado.nombre }}
+                        </strong>
 
-                <td>
-                    {{ invitado.pases }}
-                </td>
-                <td>
+                        <div class="small text-muted">
 
-                {{ invitado.personas_ingresadas or 0 }}
-                /
-                {{ invitado.pases }}
+                            Token:
+                            {{ invitado.token }}
 
-                </td>
+                        </div>
 
-                <td>
+                    </td>
 
-                    {% if invitado.respuesta == "si" %}
 
-                        <span class="badge bg-success">
-                            Sí asistirán
+                    <td>
+
+                        {{ invitado.telefono or "Sin teléfono" }}
+
+                    </td>
+
+
+                    <td class="text-center">
+
+                        {{ invitado.pases }}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if invitado.respuesta == "si" %}
+
+                        <span class="badge text-bg-success">
+
+                            Sí asistirá
+
                         </span>
 
-                    {% elif invitado.respuesta == "no" %}
+                        {% elif invitado.respuesta == "no" %}
 
-                        <span class="badge bg-danger">
-                            No asistirán
+                        <span class="badge text-bg-danger">
+
+                            No asistirá
+
                         </span>
 
-                    {% else %}
+                        {% else %}
 
-                        <span class="badge bg-warning text-dark">
+                        <span class="badge text-bg-warning">
+
                             Pendiente
+
                         </span>
 
-                    {% endif %}
+                        {% endif %}
 
-                </td>
+                    </td>
 
-                <td>
-                    {{ invitado.asistentes_confirmados }}
-                </td>
 
-                <td>
+                    <td class="text-center">
 
-                    <a
-                        href="/i/{{ invitado.token }}"
-                        target="_blank"
-                        class="btn btn-sm btn-info">
+                        {{ invitado.asistentes_confirmados or 0 }}
 
-                        Ver
+                    </td>
 
-                    </a>
 
-                    <button
-                        type="button"
-                        class="btn btn-sm btn-secondary"
-                        onclick="copiarEnlace('/i/{{ invitado.token }}')">
+                    <td class="text-end">
 
-                        Copiar
+                        <div
+                            class="d-flex flex-wrap
+                                   justify-content-end gap-2">
 
-                    </button>
+                            <a
+                                href="{{ url_for(
+                                    'invitados.invitacion_personalizada',
+                                    token=invitado.token
+                                ) }}"
+                                target="_blank"
+                                class="btn btn-sm
+                                       btn-outline-success">
 
-                    <a
-                        href="{{ url_for('admin.editar_invitado', id=invitado.id) }}"
-                        class="btn btn-sm btn-primary">
+                                Abrir
 
-                        Editar
+                            </a>
 
-                    </a>
 
-                    <a
-                        href="{{ url_for('admin.ver_qr', id=invitado.id) }}"
-                        class="btn btn-sm btn-dark">
+                            <button
+                                type="button"
+                                class="btn btn-sm
+                                       btn-outline-secondary"
+                                data-url="{{ url_for(
+                                    'invitados.invitacion_personalizada',
+                                    token=invitado.token,
+                                    _external=True
+                                ) }}"
+                                onclick="copiarInvitacionReligiosa(
+                                    this.dataset.url,
+                                    this
+                                )">
 
-                        QR
+                                Copiar enlace
 
-                    </a>
+                            </button>
 
-                    <a
-                        href="{{ url_for('admin.eliminar_invitado', id=invitado.id) }}"
-                        class="btn btn-sm btn-danger"
-                        onclick="return confirm('¿Eliminar invitado?')">
 
-                        Eliminar
+                            <a
+                                href="{{ url_for(
+                                    'admin.ver_qr',
+                                    id=invitado.id
+                                ) }}"
+                                class="btn btn-sm
+                                       btn-outline-dark">
 
-                    </a>
+                                QR
 
-                </td>
+                            </a>
 
-            </tr>
 
-            {% endfor %}
+                            <a
+                                href="{{ url_for(
+                                    'admin.editar_invitado',
+                                    id=invitado.id
+                                ) }}"
+                                class="btn btn-sm
+                                       btn-outline-primary">
+
+                                Editar
+
+                            </a>
+
+
+                            <a
+                                href="{{ url_for(
+                                    'admin.eliminar_invitado',
+                                    id=invitado.id
+                                ) }}"
+                                class="btn btn-sm
+                                       btn-outline-danger"
+                                onclick="
+                                    return confirm(
+                                        '¿Eliminar esta invitación religiosa?'
+                                    );
+                                ">
+
+                                Eliminar
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
 
             </tbody>
 
@@ -347,23 +763,89 @@ Dashboard de Boda
 
     </div>
 
+    {% else %}
+
+    <div class="text-center py-5">
+
+        {% if busqueda %}
+
+        <h4>
+            No encontramos invitados
+        </h4>
+
+        <p class="text-muted">
+            No existen resultados para
+            “{{ busqueda }}”.
+        </p>
+
+        <a
+            href="{{ url_for('admin.dashboard') }}"
+            class="btn btn-outline-secondary">
+
+            Mostrar todos
+
+        </a>
+
+        {% else %}
+
+        <h4>
+            Todavía no hay invitados
+        </h4>
+
+        <p class="text-muted">
+            Crea la primera invitación para
+            la boda religiosa.
+        </p>
+
+        <a
+            href="{{ url_for('admin.nuevo_invitado') }}"
+            class="btn btn-primary">
+
+            Crear invitado
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
 </div>
+
 
 <script>
 
-function copiarEnlace(ruta) {
+async function copiarInvitacionReligiosa(
+    enlace,
+    boton
+) {
 
-    const url =
-        window.location.origin +
-        ruta;
+    const textoOriginal = boton.textContent.trim();
 
-    navigator.clipboard.writeText(
-        url
-    );
+    try {
 
-    alert(
-        "Enlace copiado"
-    );
+        await navigator.clipboard.writeText(
+            enlace
+        );
+
+        boton.textContent = "Copiado";
+
+        setTimeout(() => {
+
+            boton.textContent = textoOriginal;
+
+        }, 1800);
+
+    } catch (error) {
+
+        window.prompt(
+            "Copia el enlace de la invitación:",
+            enlace
+        );
+
+    }
+
 }
 
 </script>

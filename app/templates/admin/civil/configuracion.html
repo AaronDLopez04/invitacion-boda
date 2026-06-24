@@ -1,0 +1,360 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Configuración de la Boda Civil
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+
+        <div>
+
+            <span class="badge rounded-pill text-bg-info mb-2">
+                Boda civil
+            </span>
+
+            <h1>
+                Configuración civil
+            </h1>
+
+            <p>
+                Modifica únicamente la información de la boda civil.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('admin_civil.dashboard') }}"
+            class="btn btn-outline-secondary">
+
+            Volver al dashboard civil
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="alert alert-warning">
+
+    <strong>Importante:</strong>
+
+    Los cambios realizados aquí no modifican la invitación religiosa.
+
+</div>
+
+
+{% if guardado %}
+
+<div class="alert alert-success">
+
+    La configuración de la boda civil se guardó correctamente.
+
+</div>
+
+{% endif %}
+
+
+<form method="POST">
+
+    <div class="admin-card mb-4">
+
+        <h3 class="mb-4">
+            Datos de los novios
+        </h3>
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Nombre de la novia
+                </label>
+
+                <input
+                    type="text"
+                    name="nombre_novia"
+                    class="form-control"
+                    value="{{ boda.nombre_novia or '' }}"
+                    required>
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Nombre del novio
+                </label>
+
+                <input
+                    type="text"
+                    name="nombre_novio"
+                    class="form-control"
+                    value="{{ boda.nombre_novio or '' }}"
+                    required>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-card mb-4">
+
+        <h3 class="mb-4">
+            Información del evento civil
+        </h3>
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Fecha
+                </label>
+
+                <input
+                    type="date"
+                    name="fecha"
+                    class="form-control"
+                    value="{{ boda.fecha or '' }}">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Hora
+                </label>
+
+                <input
+                    type="time"
+                    name="hora"
+                    class="form-control"
+                    value="{{ boda.hora or '' }}">
+
+            </div>
+
+            <div class="col-12 mb-3">
+
+                <label class="form-label">
+                    Nombre del lugar
+                </label>
+
+                <input
+                    type="text"
+                    name="lugar"
+                    class="form-control"
+                    value="{{ boda.lugar or '' }}"
+                    placeholder="Ejemplo: Jardín Los Olivos">
+
+            </div>
+
+            <div class="col-12 mb-3">
+
+                <label class="form-label">
+                    Dirección
+                </label>
+
+                <textarea
+                    name="direccion"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Dirección completa del evento">{{ boda.direccion or '' }}</textarea>
+
+            </div>
+
+            <div class="col-12 mb-3">
+
+                <label class="form-label">
+                    Enlace de Google Maps
+                </label>
+
+                <input
+                    type="url"
+                    name="mapa_url"
+                    class="form-control"
+                    value="{{ boda.mapa_url or '' }}"
+                    placeholder="https://maps.google.com/...">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-card mb-4">
+
+        <h3 class="mb-4">
+            Mensaje de bienvenida
+        </h3>
+
+        <textarea
+            name="mensaje_bienvenida"
+            class="form-control"
+            rows="5"
+            placeholder="Escribe el mensaje que aparecerá en la invitación">{{ boda.mensaje_bienvenida or '' }}</textarea>
+
+    </div>
+
+
+    <div class="admin-card mb-4">
+
+        <h3 class="mb-4">
+            Mesa de regalos
+        </h3>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Mensaje
+            </label>
+
+            <textarea
+                name="mensaje_mesa_regalos"
+                class="form-control"
+                rows="4">{{ boda.mensaje_mesa_regalos or '' }}</textarea>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Enlace de la mesa de regalos
+            </label>
+
+            <input
+                type="url"
+                name="mesa_regalos"
+                class="form-control"
+                value="{{ boda.mesa_regalos or '' }}"
+                placeholder="https://...">
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-card mb-4">
+
+        <h3>
+            Carrusel de fotografías
+        </h3>
+
+        <p class="text-muted">
+            Escribe únicamente el nombre de cada archivo.
+            Las imágenes deben estar guardadas en
+            <strong>app/static/img/civil/</strong>.
+        </p>
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Imagen 1
+                </label>
+
+                <input
+                    type="text"
+                    name="imagen_1"
+                    class="form-control"
+                    value="{{ boda.imagen_1 or '' }}"
+                    placeholder="civil-1.jpg">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Imagen 2
+                </label>
+
+                <input
+                    type="text"
+                    name="imagen_2"
+                    class="form-control"
+                    value="{{ boda.imagen_2 or '' }}"
+                    placeholder="civil-2.jpg">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Imagen 3
+                </label>
+
+                <input
+                    type="text"
+                    name="imagen_3"
+                    class="form-control"
+                    value="{{ boda.imagen_3 or '' }}"
+                    placeholder="civil-3.jpg">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Imagen 4
+                </label>
+
+                <input
+                    type="text"
+                    name="imagen_4"
+                    class="form-control"
+                    value="{{ boda.imagen_4 or '' }}"
+                    placeholder="Opcional">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Imagen 5
+                </label>
+
+                <input
+                    type="text"
+                    name="imagen_5"
+                    class="form-control"
+                    value="{{ boda.imagen_5 or '' }}"
+                    placeholder="Opcional">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="d-flex flex-wrap gap-2 mb-5">
+
+        <button
+            type="submit"
+            class="btn btn-primary">
+
+            Guardar configuración civil
+
+        </button>
+
+        <a
+            href="{{ url_for('admin_civil.dashboard') }}"
+            class="btn btn-outline-secondary">
+
+            Cancelar
+
+        </a>
+
+    </div>
+
+</form>
+
+{% endblock %}

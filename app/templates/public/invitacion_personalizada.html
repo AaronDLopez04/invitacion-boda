@@ -651,125 +651,177 @@
 
 <!-- ================= RSVP ================= -->
 
+<!-- ================= RSVP ================= -->
+
 <section class="rsvp-section">
 
     <div class="section-header">
 
-        <span>✦</span>
+        <span>
+            ✦
+        </span>
 
-        <h2>Confirmación de Asistencia</h2>
+        <h2>
+            Confirmación de Asistencia
+        </h2>
 
     </div>
 
-    {% if invitado.fecha_confirmacion %}
+
+    {% if invitado.respuesta == "si" %}
 
     <div class="confirmed-card">
 
         <div class="check">
-
             ✓
-
         </div>
 
         <h3>
-
-            Gracias por responder
-
+            ¡Gracias por confirmar!
         </h3>
 
         <p>
+            Hemos guardado tu asistencia para
+            <strong>
+                {{ invitado.asistentes_confirmados }}
+                {% if invitado.asistentes_confirmados == 1 %}
+                    persona.
+                {% else %}
+                    personas.
+                {% endif %}
+            </strong>
+        </p>
 
-            Personas confirmadas:
-            {{ invitado.asistentes_confirmados }}
 
+        <div class="qr-pass-box">
+
+            <div class="qr-pass-icon">
+                🎟️
+            </div>
+
+            <h4>
+                Tu pase para la boda
+            </h4>
+
+            <p>
+                No olvides descargar tu pase o guardarlo
+                en tu celular. Deberás presentarlo el día
+                de la boda para registrar tu llegada.
+            </p>
+
+            <a
+                href="{{ url_for(
+                    'invitados.descargar_pase',
+                    token=invitado.token
+                ) }}"
+                class="btn-elegant qr-download-button">
+
+                Descargar mi pase QR
+
+            </a>
+
+            <small class="qr-pass-note">
+
+                Te recomendamos guardarlo en tu galería
+                o enviártelo por WhatsApp para tenerlo disponible.
+
+            </small>
+
+        </div>
+
+    </div>
+
+
+    {% elif invitado.respuesta == "no" %}
+
+    <div class="confirmed-card declined-card">
+
+        <div class="declined-symbol">
+            ♡
+        </div>
+
+        <h3>
+            Gracias por responder
+        </h3>
+
+        <p>
+            Lamentamos que no puedas acompañarnos,
+            pero agradecemos mucho que nos hayas avisado.
         </p>
 
     </div>
 
+
     {% else %}
 
     <form
-
         method="POST"
-
-        action="{{ url_for('invitados.confirmar_asistencia', token=invitado.token) }}"
-
+        action="{{ url_for(
+            'invitados.confirmar_asistencia',
+            token=invitado.token
+        ) }}"
         class="rsvp-form">
 
         <div class="form-group">
 
             <label>
-
                 ¿Asistirás?
-
             </label>
 
             <select
-
                 name="respuesta"
-
-                class="form-control">
+                id="respuesta-religiosa"
+                class="form-control"
+                required>
 
                 <option value="si">
-
                     Sí asistiré
-
                 </option>
 
                 <option value="no">
-
                     No podré asistir
-
                 </option>
 
             </select>
 
         </div>
 
-        <div class="form-group">
+
+        <div
+            class="form-group"
+            id="asistentes-religiosa">
 
             <label>
-
                 ¿Cuántas personas asistirán?
-
             </label>
 
             <input
-
                 type="number"
-
                 name="asistentes"
-
-                min="0"
-
+                min="1"
                 max="{{ invitado.pases }}"
-
                 value="{{ invitado.pases }}"
-
                 class="form-control">
 
         </div>
 
+
         <div class="form-group">
 
             <label>
-
                 Comentarios
-
             </label>
 
             <textarea
-
                 rows="5"
-
                 name="comentarios"
-
                 class="form-control"></textarea>
 
         </div>
 
-        <button
 
+        <button
+            type="submit"
             class="btn-elegant">
 
             Confirmar asistencia
@@ -782,7 +834,52 @@
 
 </section>
 
-</div>
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const respuesta = document.getElementById(
+            "respuesta-religiosa"
+        );
+
+        const asistentes = document.getElementById(
+            "asistentes-religiosa"
+        );
+
+        if (!respuesta || !asistentes) {
+
+            return;
+
+        }
+
+        function actualizarAsistentes() {
+
+            if (respuesta.value === "no") {
+
+                asistentes.style.display = "none";
+
+            } else {
+
+                asistentes.style.display = "block";
+
+            }
+
+        }
+
+        respuesta.addEventListener(
+            "change",
+            actualizarAsistentes
+        );
+
+        actualizarAsistentes();
+
+    }
+);
+
+</script>
 
 <script>
 document.querySelectorAll(".copy-bank-button").forEach((button) => {

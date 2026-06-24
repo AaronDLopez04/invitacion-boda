@@ -1853,3 +1853,103 @@ section{
     transform:translateY(-4px);
 
 }
+/*====================================
+             PASE QR
+=====================================*/
+
+.qr-pass-box {
+
+    max-width: 620px;
+    margin: 32px auto 0;
+    padding: 32px;
+    border: 1px solid rgba(181, 150, 115, .28);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, .68);
+    box-shadow: 0 14px 38px rgba(70, 55, 42, .07);
+    text-align: center;
+
+}
+
+
+.qr-pass-icon {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: rgba(181, 150, 115, .16);
+    font-size: 1.45rem;
+
+}
+
+
+.qr-pass-box h4 {
+
+    margin-bottom: 12px;
+    color: #5d4b3c;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 2rem;
+    font-weight: 600;
+
+}
+
+
+.qr-pass-box p {
+
+    max-width: 500px;
+    margin: 0 auto 25px;
+    color: #71675f;
+    line-height: 1.8;
+
+}
+
+
+.qr-download-button {
+
+    margin-bottom: 16px;
+
+}
+
+
+.qr-pass-note {
+
+    display: block;
+    max-width: 480px;
+    margin: 0 auto;
+    color: #8a8179;
+    font-size: .82rem;
+    line-height: 1.6;
+
+}
+
+
+.declined-card {
+
+    border-color: rgba(181, 150, 115, .25);
+
+}
+
+
+.declined-symbol {
+
+    margin-bottom: 12px;
+    color: #b59673;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 3rem;
+    line-height: 1;
+
+}
+
+
+@media (max-width: 600px) {
+
+    .qr-pass-box {
+
+        padding: 27px 20px;
+
+    }
+
+}

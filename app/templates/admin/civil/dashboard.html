@@ -1,0 +1,553 @@
+{% extends "admin/layout/admin_base.html" %}
+
+{% block titulo %}
+Boda Civil
+{% endblock %}
+
+{% block contenido %}
+
+<div class="admin-header">
+
+    <div
+        class="d-flex flex-wrap
+               justify-content-between
+               align-items-center gap-3">
+
+        <div>
+
+            <span
+                class="badge rounded-pill
+                       text-bg-info mb-2">
+
+                Boda civil
+
+            </span>
+
+            <h1>
+                {{ boda.nombre_novia }}
+                &
+                {{ boda.nombre_novio }}
+            </h1>
+
+            <p>
+                Administración independiente
+                de la invitación civil.
+            </p>
+
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+
+            <a
+                href="{{ url_for(
+                    'admin_civil.nuevo_invitado'
+                ) }}"
+                class="btn btn-primary">
+
+                Nuevo invitado civil
+
+            </a>
+
+            <a
+                href="{{ url_for(
+                    'admin_civil.configuracion'
+                ) }}"
+                class="btn btn-outline-primary">
+
+                Configuración civil
+
+            </a>
+
+            <a
+                href="{{ url_for(
+                    'admin.dashboard'
+                ) }}"
+                class="btn btn-outline-secondary">
+
+                Boda religiosa
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="alert alert-info">
+
+    <strong>
+        Estás administrando la boda civil.
+    </strong>
+
+    Los invitados y confirmaciones de esta
+    sección no se mezclan con la boda religiosa.
+
+</div>
+
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="admin-card h-100 text-center">
+
+            <p class="text-muted mb-2">
+                Invitaciones
+            </p>
+
+            <h2>
+                {{ total_invitados }}
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="admin-card h-100 text-center">
+
+            <p class="text-muted mb-2">
+                Pases disponibles
+            </p>
+
+            <h2>
+                {{ total_pases }}
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="admin-card h-100 text-center">
+
+            <p class="text-muted mb-2">
+                Personas confirmadas
+            </p>
+
+            <h2>
+                {{ asistentes_confirmados }}
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="admin-card h-100 text-center">
+
+            <p class="text-muted mb-2">
+                Pendientes
+            </p>
+
+            <h2>
+                {{ pendientes }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="admin-card mb-4">
+
+    <div
+        class="d-flex flex-wrap
+               justify-content-between
+               align-items-center gap-3 mb-4">
+
+        <div>
+
+            <h3 class="mb-1">
+                Invitados civiles
+            </h3>
+
+            <p class="text-muted mb-0">
+                Administra únicamente a quienes
+                recibirán la invitación civil.
+            </p>
+
+        </div>
+
+        <form
+            method="GET"
+            class="d-flex gap-2">
+
+            <input
+                type="search"
+                name="q"
+                class="form-control"
+                value="{{ busqueda }}"
+                placeholder="Buscar invitado">
+
+            <button
+                type="submit"
+                class="btn btn-outline-primary">
+
+                Buscar
+
+            </button>
+
+            {% if busqueda %}
+
+            <a
+                href="{{ url_for(
+                    'admin_civil.dashboard'
+                ) }}"
+                class="btn btn-outline-secondary">
+
+                Limpiar
+
+            </a>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+
+    {% if invitados %}
+
+    <div class="table-responsive">
+
+        <table
+            class="table align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Invitado
+                    </th>
+
+                    <th>
+                        Teléfono
+                    </th>
+
+                    <th class="text-center">
+                        Pases
+                    </th>
+
+                    <th>
+                        Respuesta
+                    </th>
+
+                    <th class="text-center">
+                        Confirmados
+                    </th>
+
+                    <th class="text-end">
+                        Acciones
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for invitado in invitados %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            {{ invitado.nombre }}
+                        </strong>
+
+                        <div class="small text-muted">
+
+                            Token:
+                            {{ invitado.token }}
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        {{ invitado.telefono or "Sin teléfono" }}
+
+                    </td>
+
+                    <td class="text-center">
+
+                        {{ invitado.pases }}
+
+                    </td>
+
+                    <td>
+
+                        {% if invitado.respuesta == "si" %}
+
+                            <span class="badge text-bg-success">
+                                Sí asistirá
+                            </span>
+
+                        {% elif invitado.respuesta == "no" %}
+
+                            <span class="badge text-bg-danger">
+                                No asistirá
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge text-bg-warning">
+                                Pendiente
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td class="text-center">
+
+                        {{ invitado.asistentes_confirmados or 0 }}
+
+                    </td>
+
+                    <td class="text-end">
+
+                        <div
+                            class="d-flex flex-wrap
+                                   justify-content-end gap-2">
+                            <a
+                                href="{{ url_for(
+                                    'civil.invitacion',
+                                    token=invitado.token
+                                ) }}"
+                                target="_blank"
+                                class="btn btn-sm btn-outline-success">
+
+                                Abrir invitación
+
+                            </a>
+
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-outline-secondary"
+                                data-url="{{ url_for(
+                                    'civil.invitacion',
+                                    token=invitado.token,
+                                    _external=True
+                                ) }}"
+                                onclick="copiarInvitacionCivil(
+                                    this.dataset.url,
+                                    this
+                                )">
+
+                                Copiar enlace
+
+                            </button>
+                            <a
+                                href="{{ url_for(
+                                    'admin_civil.editar_invitado',
+                                    id=invitado.id
+                                ) }}"
+                                class="btn btn-sm
+                                       btn-outline-primary">
+
+                                Editar
+
+                            </a>
+
+                            <form
+                                method="POST"
+                                action="{{ url_for(
+                                    'admin_civil.eliminar_invitado',
+                                    id=invitado.id
+                                ) }}"
+                                onsubmit="
+                                    return confirm(
+                                        '¿Eliminar esta invitación civil?'
+                                    );
+                                ">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-sm
+                                           btn-outline-danger">
+
+                                    Eliminar
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="text-center py-5">
+
+        <h4>
+            No hay invitados civiles
+        </h4>
+
+        {% if busqueda %}
+
+        <p class="text-muted">
+            No se encontraron resultados
+            para “{{ busqueda }}”.
+        </p>
+
+        <a
+            href="{{ url_for(
+                'admin_civil.dashboard'
+            ) }}"
+            class="btn btn-outline-secondary">
+
+            Mostrar todos
+
+        </a>
+
+        {% else %}
+
+        <p class="text-muted">
+            Crea la primera invitación
+            para la boda civil.
+        </p>
+
+        <a
+            href="{{ url_for(
+                'admin_civil.nuevo_invitado'
+            ) }}"
+            class="btn btn-primary">
+
+            Crear invitado civil
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<div class="row g-4">
+
+    <div class="col-md-6">
+
+        <div class="admin-card h-100">
+
+            <h4>
+                Progreso de confirmación
+            </h4>
+
+            <div
+                class="progress mt-4"
+                style="height: 22px;">
+
+                <div
+                    class="progress-bar"
+                    role="progressbar"
+                    style="width: {{ porcentaje }}%;"
+                    aria-valuenow="{{ porcentaje }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100">
+
+                    {{ porcentaje }}%
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="admin-card h-100">
+
+            <h4>
+                Resumen
+            </h4>
+
+            <p class="mb-2">
+
+                Invitaciones pendientes:
+
+                <strong>
+                    {{ pendientes }}
+                </strong>
+
+            </p>
+
+            <p class="mb-0">
+
+                Invitaciones que no asistirán:
+
+                <strong>
+                    {{ no_asistiran }}
+                </strong>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+async function copiarInvitacionCivil(
+    enlace,
+    boton
+) {
+
+    const textoOriginal = boton.textContent;
+
+    try {
+
+        await navigator.clipboard.writeText(
+            enlace
+        );
+
+        boton.textContent = "Copiado";
+
+        setTimeout(() => {
+
+            boton.textContent = textoOriginal;
+
+        }, 1800);
+
+    } catch (error) {
+
+        window.prompt(
+            "Copia el enlace de la invitación:",
+            enlace
+        );
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

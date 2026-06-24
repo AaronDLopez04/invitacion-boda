@@ -18,14 +18,21 @@ def create_app():
     from app.models.invitado import Invitado
     from app.models.administrador import Administrador
     from app.models.mesa import Mesa
+    
+    from app.models.boda_civil import BodaCivil
+    from app.models.invitado_civil import InvitadoCivil
 
     from app.routes.public import public_bp
     from app.routes.admin import admin_bp
     from app.routes.invitados import invitados_bp
+    from app.routes.admin_civil import admin_civil_bp
+    from app.routes.civil import civil_bp
 
     app.register_blueprint(public_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(invitados_bp)
+    app.register_blueprint(admin_civil_bp)
+    app.register_blueprint(civil_bp)
 
     with app.app_context():
         db.create_all()

@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ boda.nombre_novia }} & {{ boda.nombre_novio }}
+        | Boda civil
+    </title>
+
+    <link
+        rel="icon"
+        href="{{ url_for('static', filename='favicon.png') }}">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/civil.css') }}">
+
+</head>
+
+<body>
+
+
+<!-- ====================================
+                PORTADA
+===================================== -->
+
+<section class="civil-hero">
+
+    {% if imagenes %}
+
+    <div
+        class="civil-carousel"
+        id="civil-carousel">
+
+        {% for imagen in imagenes %}
+
+        <div
+            class="civil-slide {% if loop.first %}active{% endif %}">
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='img/civil/' ~ imagen
+                ) }}"
+                alt="Fotografía de {{ boda.nombre_novia }} y {{ boda.nombre_novio }}">
+
+        </div>
+
+        {% endfor %}
+
+
+        {% if imagenes|length > 1 %}
+
+        <button
+            type="button"
+            class="carousel-arrow carousel-arrow-left"
+            id="carousel-prev"
+            aria-label="Fotografía anterior">
+
+            &#10094;
+
+        </button>
+
+        <button
+            type="button"
+            class="carousel-arrow carousel-arrow-right"
+            id="carousel-next"
+            aria-label="Fotografía siguiente">
+
+            &#10095;
+
+        </button>
+
+
+        <div class="carousel-dots">
+
+            {% for imagen in imagenes %}
+
+            <button
+                type="button"
+                class="carousel-dot {% if loop.first %}active{% endif %}"
+                data-slide="{{ loop.index0 }}"
+                aria-label="Ver fotografía {{ loop.index }}">
+            </button>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% else %}
+
+    <div class="civil-hero-placeholder"></div>
+
+    {% endif %}
+
+
+    <div class="civil-hero-overlay"></div>
+
+
+    <div class="civil-hero-content">
+
+        <span class="civil-small-title">
+            Nuestra boda civil
+        </span>
+
+        <h1>
+            {{ boda.nombre_novia }}
+            <span>&</span>
+            {{ boda.nombre_novio }}
+        </h1>
+
+        {% if fecha_legible %}
+
+        <p class="civil-hero-date">
+            {{ fecha_legible }}
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- ====================================
+          INVITADO PERSONALIZADO
+===================================== -->
+
+<section class="civil-section civil-welcome">
+
+    <div class="civil-container">
+
+        <span class="civil-ornament">
+            ✦
+        </span>
+
+        <p class="civil-overline">
+            Tenemos el honor de invitar a
+        </p>
+
+        <h2 class="civil-guest-name">
+            {{ invitado.nombre }}
+        </h2>
+
+        <p class="civil-passes">
+
+            Esta invitación es válida para
+
+            <strong>
+                {{ invitado.pases }}
+                {% if invitado.pases == 1 %}
+                    persona
+                {% else %}
+                    personas
+                {% endif %}
+            </strong>
+
+        </p>
+
+        {% if boda.mensaje_bienvenida %}
+
+        <p class="civil-message">
+            {{ boda.mensaje_bienvenida }}
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- ====================================
+             INFORMACIÓN
+===================================== -->
+
+<section class="civil-section civil-event">
+
+    <div class="civil-container">
+
+        <div class="civil-section-heading">
+
+            <span>
+                ✦
+            </span>
+
+            <p>
+                Acompáñanos
+            </p>
+
+            <h2>
+                Información del evento
+            </h2>
+
+        </div>
+
+
+        <div class="civil-event-card">
+
+            {% if fecha_legible %}
+
+            <div class="civil-event-detail">
+
+                <span class="civil-detail-icon">
+                    ♡
+                </span>
+
+                <div>
+
+                    <span class="civil-detail-label">
+                        Fecha
+                    </span>
+
+                    <strong>
+                        {{ fecha_legible }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            {% if hora_legible %}
+
+            <div class="civil-event-detail">
+
+                <span class="civil-detail-icon">
+                    ◷
+                </span>
+
+                <div>
+
+                    <span class="civil-detail-label">
+                        Hora
+                    </span>
+
+                    <strong>
+                        {{ hora_legible }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            {% if boda.lugar %}
+
+            <div class="civil-event-detail">
+
+                <span class="civil-detail-icon">
+                    ✦
+                </span>
+
+                <div>
+
+                    <span class="civil-detail-label">
+                        Lugar
+                    </span>
+
+                    <strong>
+                        {{ boda.lugar }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            {% if boda.direccion %}
+
+            <div class="civil-event-detail">
+
+                <span class="civil-detail-icon">
+                    ⌖
+                </span>
+
+                <div>
+
+                    <span class="civil-detail-label">
+                        Dirección
+                    </span>
+
+                    <strong>
+                        {{ boda.direccion }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        {% if boda.mapa_url %}
+
+        <a
+            href="{{ boda.mapa_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="civil-button">
+
+            Abrir ubicación
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- ====================================
+             MESA DE REGALOS
+===================================== -->
+
+<section class="civil-section civil-gifts">
+
+    <div class="civil-container">
+
+        <div class="civil-section-heading">
+
+            <span>
+                ✦
+            </span>
+
+            <p>
+                Con cariño
+            </p>
+
+            <h2>
+                Mesa de regalos
+            </h2>
+
+        </div>
+
+
+        {% if boda.mensaje_mesa_regalos %}
+
+        <p class="civil-message">
+            {{ boda.mensaje_mesa_regalos }}
+        </p>
+
+        {% endif %}
+
+
+        {% if boda.mesa_regalos %}
+
+        <a
+            href="{{ boda.mesa_regalos }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="civil-button">
+
+            Ver mesa de regalos
+
+        </a>
+
+        {% endif %}
+
+            <div class="civil-transfer-box">
+
+        <span class="civil-transfer-ornament">
+            ✦
+        </span>
+
+        <h3>
+            Ofrenda especial
+        </h3>
+
+        <p class="civil-transfer-message">
+            Gracias por tu apoyo, si está en tu corazón apoyarnos
+            con alguna ofrenda especial, esta es nuestra cuenta.
+        </p>
+
+        <div class="civil-bank-details">
+
+            <div class="civil-bank-row">
+
+                <div>
+
+                    <span class="civil-bank-label">
+                        CLABE
+                    </span>
+
+                    <strong>
+                        722969010503572758
+                    </strong>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="civil-copy-button"
+                    data-copy="722969010503572758">
+
+                    Copiar
+
+                </button>
+
+            </div>
+
+
+            <div class="civil-bank-row">
+
+                <div>
+
+                    <span class="civil-bank-label">
+                        Beneficiario
+                    </span>
+
+                    <strong>
+                        Magdiel Lopez Garcia
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="civil-bank-row">
+
+                <div>
+
+                    <span class="civil-bank-label">
+                        Institución
+                    </span>
+
+                    <strong>
+                        Mercado Pago W
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="civil-bank-row">
+
+                <div>
+
+                    <span class="civil-bank-label">
+                        Celular vinculado a Dimo®
+                    </span>
+
+                    <strong>
+                        55 4686 4443
+                    </strong>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="civil-copy-button"
+                    data-copy="5546864443">
+
+                    Copiar
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <p
+            id="civil-copy-message"
+            class="civil-copy-message"
+            aria-live="polite">
+        </p>
+
+    </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ====================================
+         CONFIRMACIÓN DE ASISTENCIA
+===================================== -->
+
+<section class="civil-section civil-rsvp">
+
+    <div class="civil-container">
+
+        <div class="civil-section-heading">
+
+            <span>
+                ✦
+            </span>
+
+            <p>
+                RSVP
+            </p>
+
+            <h2>
+                Confirma tu asistencia
+            </h2>
+
+        </div>
+
+
+        {% if confirmacion_guardada %}
+
+        <div class="civil-success-message">
+
+            <strong>
+                ¡Gracias, {{ invitado.nombre }}!
+            </strong>
+
+            <p>
+                Tu respuesta fue guardada correctamente.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+
+        {% if invitado.respuesta == "si" %}
+
+        <div class="civil-current-answer">
+
+            Actualmente confirmaste asistencia para
+
+            <strong>
+                {{ invitado.asistentes_confirmados }}
+                {% if invitado.asistentes_confirmados == 1 %}
+                    persona.
+                {% else %}
+                    personas.
+                {% endif %}
+            </strong>
+
+            Puedes modificar tu respuesta utilizando
+            el formulario.
+
+        </div>
+
+        {% elif invitado.respuesta == "no" %}
+
+        <div class="civil-current-answer">
+
+            Actualmente indicaste que no podrás asistir.
+
+            Puedes modificar tu respuesta utilizando
+            el formulario.
+
+        </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'civil.confirmar',
+                token=invitado.token
+            ) }}"
+            class="civil-rsvp-form">
+
+            <fieldset>
+
+                <legend>
+                    ¿Podrás acompañarnos?
+                </legend>
+
+                <label class="civil-option">
+
+                    <input
+                        type="radio"
+                        name="respuesta"
+                        value="si"
+                        {% if invitado.respuesta == "si" %}
+                            checked
+                        {% endif %}
+                        required>
+
+                    <span>
+                        Sí, asistiré
+                    </span>
+
+                </label>
+
+                <label class="civil-option">
+
+                    <input
+                        type="radio"
+                        name="respuesta"
+                        value="no"
+                        {% if invitado.respuesta == "no" %}
+                            checked
+                        {% endif %}
+                        required>
+
+                    <span>
+                        No podré asistir
+                    </span>
+
+                </label>
+
+            </fieldset>
+
+
+            <div
+                class="civil-form-group"
+                id="asistentes-group">
+
+                <label for="asistentes">
+                    ¿Cuántas personas asistirán?
+                </label>
+
+                <select
+                    name="asistentes"
+                    id="asistentes">
+
+                    {% for numero in range(
+                        1,
+                        invitado.pases + 1
+                    ) %}
+
+                    <option
+                        value="{{ numero }}"
+                        {% if invitado.asistentes_confirmados == numero %}
+                            selected
+                        {% endif %}>
+
+                        {{ numero }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="civil-form-group">
+
+                <label for="comentarios">
+                    Mensaje para los novios
+                </label>
+
+                <textarea
+                    name="comentarios"
+                    id="comentarios"
+                    rows="4"
+                    placeholder="Opcional">{{ invitado.comentarios or '' }}</textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="civil-button civil-submit">
+
+                Guardar mi respuesta
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ====================================
+                PIE
+===================================== -->
+
+<footer class="civil-footer">
+
+    <span>
+        ✦
+    </span>
+
+    <h2>
+        {{ boda.nombre_novia }}
+        &
+        {{ boda.nombre_novio }}
+    </h2>
+
+    <p>
+        Gracias por ser parte de nuestra historia.
+    </p>
+
+</footer>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const slides = document.querySelectorAll(
+        ".civil-slide"
+    );
+
+    const dots = document.querySelectorAll(
+        ".carousel-dot"
+    );
+
+    const previousButton = document.getElementById(
+        "carousel-prev"
+    );
+
+    const nextButton = document.getElementById(
+        "carousel-next"
+    );
+
+    let currentSlide = 0;
+    let automaticChange = null;
+
+
+    function showSlide(index) {
+
+        if (slides.length === 0) {
+
+            return;
+
+        }
+
+        if (index < 0) {
+
+            index = slides.length - 1;
+
+        }
+
+        if (index >= slides.length) {
+
+            index = 0;
+
+        }
+
+        slides.forEach((slide) => {
+
+            slide.classList.remove(
+                "active"
+            );
+
+        });
+
+        dots.forEach((dot) => {
+
+            dot.classList.remove(
+                "active"
+            );
+
+        });
+
+        slides[index].classList.add(
+            "active"
+        );
+
+        if (dots[index]) {
+
+            dots[index].classList.add(
+                "active"
+            );
+
+        }
+
+        currentSlide = index;
+
+    }
+
+
+    function nextSlide() {
+
+        showSlide(
+            currentSlide + 1
+        );
+
+    }
+
+
+    function restartAutomaticChange() {
+
+        if (automaticChange) {
+
+            clearInterval(
+                automaticChange
+            );
+
+        }
+
+        if (slides.length > 1) {
+
+            automaticChange = setInterval(
+                nextSlide,
+                5000
+            );
+
+        }
+
+    }
+
+
+    if (previousButton) {
+
+        previousButton.addEventListener(
+            "click",
+            () => {
+
+                showSlide(
+                    currentSlide - 1
+                );
+
+                restartAutomaticChange();
+
+            }
+        );
+
+    }
+
+
+    if (nextButton) {
+
+        nextButton.addEventListener(
+            "click",
+            () => {
+
+                nextSlide();
+                restartAutomaticChange();
+
+            }
+        );
+
+    }
+
+
+    dots.forEach((dot) => {
+
+        dot.addEventListener(
+            "click",
+            () => {
+
+                showSlide(
+                    Number(
+                        dot.dataset.slide
+                    )
+                );
+
+                restartAutomaticChange();
+
+            }
+        );
+
+    });
+
+
+    restartAutomaticChange();
+
+
+    const responseInputs = document.querySelectorAll(
+        'input[name="respuesta"]'
+    );
+
+    const attendeesGroup = document.getElementById(
+        "asistentes-group"
+    );
+
+
+    function updateAttendeesVisibility() {
+
+        const selectedResponse = document.querySelector(
+            'input[name="respuesta"]:checked'
+        );
+
+        if (
+            selectedResponse
+            && selectedResponse.value === "no"
+        ) {
+
+            attendeesGroup.classList.add(
+                "hidden"
+            );
+
+        } else {
+
+            attendeesGroup.classList.remove(
+                "hidden"
+            );
+
+        }
+
+    }
+
+
+    responseInputs.forEach((input) => {
+
+        input.addEventListener(
+            "change",
+            updateAttendeesVisibility
+        );
+
+    });
+
+
+    updateAttendeesVisibility();
+
+    const copyButtons = document.querySelectorAll(
+    ".civil-copy-button"
+);
+
+const copyMessage = document.getElementById(
+    "civil-copy-message"
+);
+
+
+    copyButtons.forEach((button) => {
+
+        button.addEventListener(
+            "click",
+            async () => {
+
+                const value = button.dataset.copy;
+                const originalText = button.textContent.trim();
+
+                try {
+
+                    await navigator.clipboard.writeText(
+                        value
+                    );
+
+                    button.textContent = "Copiado";
+
+                    if (copyMessage) {
+
+                        copyMessage.textContent =
+                            "Dato copiado correctamente.";
+
+                    }
+
+                    setTimeout(() => {
+
+                        button.textContent = originalText;
+
+                        if (copyMessage) {
+
+                            copyMessage.textContent = "";
+
+                        }
+
+                    }, 2000);
+
+                } catch (error) {
+
+                    window.prompt(
+                        "Copia este dato:",
+                        value
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+});
+
+</script>
+
+
+</body>
+
+</html>
