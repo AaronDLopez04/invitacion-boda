@@ -41,10 +41,6 @@
 <body>
 
 
-<!-- ====================================
-                PORTADA
-===================================== -->
-
 <section class="civil-hero">
 
     {% if imagenes %}
@@ -147,10 +143,6 @@
 </section>
 
 
-<!-- ====================================
-          INVITADO PERSONALIZADO
-===================================== -->
-
 <section class="civil-section civil-welcome">
 
     <div class="civil-container">
@@ -160,27 +152,12 @@
         </span>
 
         <p class="civil-overline">
-            Tenemos el honor de invitar a
+            Estás invitado a nuestra boda civil
         </p>
 
         <h2 class="civil-guest-name">
-            {{ invitado.nombre }}
+            Registra tu asistencia
         </h2>
-
-        <p class="civil-passes">
-
-            Esta invitación es válida para
-
-            <strong>
-                {{ invitado.pases }}
-                {% if invitado.pases == 1 %}
-                    persona
-                {% else %}
-                    personas
-                {% endif %}
-            </strong>
-
-        </p>
 
         {% if boda.mensaje_bienvenida %}
 
@@ -190,14 +167,20 @@
 
         {% endif %}
 
+        <p class="civil-passes">
+
+            Cada registro corresponde a
+
+            <strong>
+                1 pase por persona
+            </strong>
+
+        </p>
+
     </div>
 
 </section>
 
-
-<!-- ====================================
-             INFORMACIÓN
-===================================== -->
 
 <section class="civil-section civil-event">
 
@@ -343,10 +326,6 @@
 </section>
 
 
-<!-- ====================================
-             MESA DE REGALOS
-===================================== -->
-
 <section class="civil-section civil-gifts">
 
     <div class="civil-container">
@@ -391,127 +370,123 @@
 
         {% endif %}
 
-            <div class="civil-transfer-box">
 
-        <span class="civil-transfer-ornament">
-            ✦
-        </span>
+        <div class="civil-transfer-box">
 
-        <h3>
-            Ofrenda especial
-        </h3>
+            <span class="civil-transfer-ornament">
+                ✦
+            </span>
 
-        <p class="civil-transfer-message">
-            Gracias por tu apoyo, si está en tu corazón apoyarnos
-            con alguna ofrenda especial, esta es nuestra cuenta.
-        </p>
+            <h3>
+                Ofrenda especial
+            </h3>
 
-        <div class="civil-bank-details">
+            <p class="civil-transfer-message">
+                Gracias por tu apoyo, si está en tu corazón apoyarnos
+                con alguna ofrenda especial, esta es nuestra cuenta.
+            </p>
 
-            <div class="civil-bank-row">
+            <div class="civil-bank-details">
 
-                <div>
+                <div class="civil-bank-row">
 
-                    <span class="civil-bank-label">
-                        CLABE
-                    </span>
+                    <div>
 
-                    <strong>
-                        722969010503572758
-                    </strong>
+                        <span class="civil-bank-label">
+                            CLABE
+                        </span>
 
-                </div>
+                        <strong>
+                            722969010503572758
+                        </strong>
 
-                <button
-                    type="button"
-                    class="civil-copy-button"
-                    data-copy="722969010503572758">
+                    </div>
 
-                    Copiar
+                    <button
+                        type="button"
+                        class="civil-copy-button"
+                        data-copy="722969010503572758">
 
-                </button>
+                        Copiar
 
-            </div>
-
-
-            <div class="civil-bank-row">
-
-                <div>
-
-                    <span class="civil-bank-label">
-                        Beneficiario
-                    </span>
-
-                    <strong>
-                        Magdiel Lopez Garcia
-                    </strong>
+                    </button>
 
                 </div>
 
-            </div>
+
+                <div class="civil-bank-row">
+
+                    <div>
+
+                        <span class="civil-bank-label">
+                            Beneficiario
+                        </span>
+
+                        <strong>
+                            Magdiel Lopez Garcia
+                        </strong>
+
+                    </div>
+
+                </div>
 
 
-            <div class="civil-bank-row">
+                <div class="civil-bank-row">
 
-                <div>
+                    <div>
 
-                    <span class="civil-bank-label">
-                        Institución
-                    </span>
+                        <span class="civil-bank-label">
+                            Institución
+                        </span>
 
-                    <strong>
-                        Mercado Pago W
-                    </strong>
+                        <strong>
+                            Mercado Pago W
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="civil-bank-row">
+
+                    <div>
+
+                        <span class="civil-bank-label">
+                            Celular vinculado a Dimo®
+                        </span>
+
+                        <strong>
+                            55 4686 4443
+                        </strong>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="civil-copy-button"
+                        data-copy="5546864443">
+
+                        Copiar
+
+                    </button>
 
                 </div>
 
             </div>
 
-
-            <div class="civil-bank-row">
-
-                <div>
-
-                    <span class="civil-bank-label">
-                        Celular vinculado a Dimo®
-                    </span>
-
-                    <strong>
-                        55 4686 4443
-                    </strong>
-
-                </div>
-
-                <button
-                    type="button"
-                    class="civil-copy-button"
-                    data-copy="5546864443">
-
-                    Copiar
-
-                </button>
-
-            </div>
+            <p
+                id="civil-copy-message"
+                class="civil-copy-message"
+                aria-live="polite">
+            </p>
 
         </div>
-
-        <p
-            id="civil-copy-message"
-            class="civil-copy-message"
-            aria-live="polite">
-        </p>
-
-    </div>
 
     </div>
 
 </section>
 
-
-
-<!-- ====================================
-         CONFIRMACIÓN DE ASISTENCIA
-===================================== -->
 
 <section class="civil-section civil-rsvp">
 
@@ -524,164 +499,48 @@
             </span>
 
             <p>
-                RSVP
+                Registro
             </p>
 
             <h2>
-                Confirma tu asistencia
+                Confirma tu lugar
             </h2>
 
         </div>
-        
-        {% if registro_guardado %}
-
-    <div class="civil-success-message">
-
-        <strong>
-            ¡Tu registro fue guardado!
-        </strong>
-
-    <p>
-        Gracias por confirmar tu asistencia.
-        Tu pase corresponde a una persona.
-    </p>
-
-</div>
-
-{% endif %}
-
-        {% if confirmacion_guardada %}
-
-        <div class="civil-success-message">
-
-            <strong>
-                ¡Gracias, {{ invitado.nombre }}!
-            </strong>
-
-            <p>
-                Tu respuesta fue guardada correctamente.
-            </p>
-
-        </div>
-
-        {% endif %}
-
-
-        {% if invitado.respuesta == "si" %}
-
-        <div class="civil-current-answer">
-
-            Actualmente confirmaste asistencia para
-
-            <strong>
-                {{ invitado.asistentes_confirmados }}
-                {% if invitado.asistentes_confirmados == 1 %}
-                    persona.
-                {% else %}
-                    personas.
-                {% endif %}
-            </strong>
-
-            Puedes modificar tu respuesta utilizando
-            el formulario.
-
-        </div>
-
-        {% elif invitado.respuesta == "no" %}
-
-        <div class="civil-current-answer">
-
-            Actualmente indicaste que no podrás asistir.
-
-            Puedes modificar tu respuesta utilizando
-            el formulario.
-
-        </div>
-
-        {% endif %}
 
 
         <form
             method="POST"
-            action="{{ url_for(
-                'civil.confirmar',
-                token=invitado.token
-            ) }}"
+            action="{{ url_for('civil.registrar_invitado') }}"
             class="civil-rsvp-form">
 
-            <fieldset>
+            <div class="civil-form-group">
 
-                <legend>
-                    ¿Podrás acompañarnos?
-                </legend>
-
-                <label class="civil-option">
-
-                    <input
-                        type="radio"
-                        name="respuesta"
-                        value="si"
-                        {% if invitado.respuesta == "si" %}
-                            checked
-                        {% endif %}
-                        required>
-
-                    <span>
-                        Sí, asistiré
-                    </span>
-
+                <label for="nombre">
+                    Nombre completo
                 </label>
 
-                <label class="civil-option">
+                <input
+                    type="text"
+                    name="nombre"
+                    id="nombre"
+                    required
+                    placeholder="Escribe tu nombre completo">
 
-                    <input
-                        type="radio"
-                        name="respuesta"
-                        value="no"
-                        {% if invitado.respuesta == "no" %}
-                            checked
-                        {% endif %}
-                        required>
+            </div>
 
-                    <span>
-                        No podré asistir
-                    </span>
 
+            <div class="civil-form-group">
+
+                <label for="telefono">
+                    Teléfono
                 </label>
 
-            </fieldset>
-
-
-            <div
-                class="civil-form-group"
-                id="asistentes-group">
-
-                <label for="asistentes">
-                    ¿Cuántas personas asistirán?
-                </label>
-
-                <select
-                    name="asistentes"
-                    id="asistentes">
-
-                    {% for numero in range(
-                        1,
-                        invitado.pases + 1
-                    ) %}
-
-                    <option
-                        value="{{ numero }}"
-                        {% if invitado.asistentes_confirmados == numero %}
-                            selected
-                        {% endif %}>
-
-                        {{ numero }}
-
-                    </option>
-
-                    {% endfor %}
-
-                </select>
+                <input
+                    type="tel"
+                    name="telefono"
+                    id="telefono"
+                    placeholder="Opcional">
 
             </div>
 
@@ -696,7 +555,16 @@
                     name="comentarios"
                     id="comentarios"
                     rows="4"
-                    placeholder="Opcional">{{ invitado.comentarios or '' }}</textarea>
+                    placeholder="Opcional"></textarea>
+
+            </div>
+
+
+            <div class="civil-current-answer">
+
+                Recuerda que cada registro corresponde
+                a un solo pase. Si otra persona asistirá,
+                deberá registrarse por separado.
 
             </div>
 
@@ -705,7 +573,7 @@
                 type="submit"
                 class="civil-button civil-submit">
 
-                Guardar mi respuesta
+                Registrar mi asistencia
 
             </button>
 
@@ -715,10 +583,6 @@
 
 </section>
 
-
-<!-- ====================================
-                PIE
-===================================== -->
 
 <footer class="civil-footer">
 
@@ -903,60 +767,13 @@ document.addEventListener("DOMContentLoaded", () => {
     restartAutomaticChange();
 
 
-    const responseInputs = document.querySelectorAll(
-        'input[name="respuesta"]'
-    );
-
-    const attendeesGroup = document.getElementById(
-        "asistentes-group"
-    );
-
-
-    function updateAttendeesVisibility() {
-
-        const selectedResponse = document.querySelector(
-            'input[name="respuesta"]:checked'
-        );
-
-        if (
-            selectedResponse
-            && selectedResponse.value === "no"
-        ) {
-
-            attendeesGroup.classList.add(
-                "hidden"
-            );
-
-        } else {
-
-            attendeesGroup.classList.remove(
-                "hidden"
-            );
-
-        }
-
-    }
-
-
-    responseInputs.forEach((input) => {
-
-        input.addEventListener(
-            "change",
-            updateAttendeesVisibility
-        );
-
-    });
-
-
-    updateAttendeesVisibility();
-
     const copyButtons = document.querySelectorAll(
-    ".civil-copy-button"
-);
+        ".civil-copy-button"
+    );
 
-const copyMessage = document.getElementById(
-    "civil-copy-message"
-);
+    const copyMessage = document.getElementById(
+        "civil-copy-message"
+    );
 
 
     copyButtons.forEach((button) => {

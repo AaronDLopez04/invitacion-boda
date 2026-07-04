@@ -609,6 +609,7 @@ textarea {
 }
 
 
+.civil-form-group input,
 .civil-form-group select,
 .civil-form-group textarea {
 
@@ -629,6 +630,19 @@ textarea {
 
 }
 
+.civil-form-group input {
+
+    width: 100%;
+    height: 50px;
+    padding: 0 16px;
+    border: 1px solid var(--civil-border);
+    border-radius: 14px;
+    outline: none;
+    background: rgba(255, 255, 255, .85);
+    color: var(--civil-text);
+
+}
+
 
 .civil-form-group textarea {
 
@@ -639,6 +653,7 @@ textarea {
 }
 
 
+.civil-form-group input:focus,
 .civil-form-group select:focus,
 .civil-form-group textarea:focus {
 
