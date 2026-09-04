@@ -547,6 +547,40 @@
 
             <div class="civil-form-group">
 
+                <label for="total_personas">
+                    ¿Cuántas personas asistirán?
+                </label>
+
+                <input
+                    type="number"
+                    name="total_personas"
+                    id="total_personas"
+                    min="1"
+                    max="20"
+                    value="1"
+                    required>
+
+                <small>
+                    Inclúyete a ti mismo en el total.
+                </small>
+
+            </div>
+
+
+            <div
+                id="acompanantes-container"
+                class="civil-form-group">
+
+                <!--
+                    Los campos de acompañantes
+                    aparecerán aquí automáticamente.
+                -->
+
+            </div>
+
+
+            <div class="civil-form-group">
+
                 <label for="comentarios">
                     Mensaje para los novios
                 </label>
@@ -562,9 +596,16 @@
 
             <div class="civil-current-answer">
 
-                Recuerda que cada registro corresponde
-                a un solo pase. Si otra persona asistirá,
-                deberá registrarse por separado.
+                <strong>
+                    Importante:
+                </strong>
+
+                <br>
+
+                Registra a todas las personas que asistirán
+                contigo. Tú aparecerás como la persona
+                principal y podrás agregar los nombres
+                de tus acompañantes.
 
             </div>
 
@@ -761,6 +802,113 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
+            const totalPersonasInput = document.getElementById(
+        "total_personas"
+    );
+
+    const acompanantesContainer = document.getElementById(
+        "acompanantes-container"
+    );
+
+
+    function actualizarAcompanantes() {
+
+        if (!totalPersonasInput || !acompanantesContainer) {
+            return;
+        }
+
+        const totalPersonas = Number(
+            totalPersonasInput.value
+        );
+
+        acompanantesContainer.innerHTML = "";
+
+
+        if (totalPersonas <= 1) {
+            return;
+        }
+
+
+        const titulo = document.createElement("label");
+
+        titulo.textContent =
+            "Nombres de tus acompañantes";
+
+        titulo.classList.add(
+            "civil-acompanantes-title"
+        );
+
+        acompanantesContainer.appendChild(
+            titulo
+        );
+
+
+        for (
+            let numero = 1;
+            numero < totalPersonas;
+            numero++
+        ) {
+
+            const grupo = document.createElement(
+                "div"
+            );
+
+            grupo.classList.add(
+                "civil-form-group"
+            );
+
+
+            const label = document.createElement(
+                "label"
+            );
+
+            label.setAttribute(
+                "for",
+                `acompanante_${numero}`
+            );
+
+            label.textContent =
+                `Acompañante ${numero}`;
+
+
+            const input = document.createElement(
+                "input"
+            );
+
+            input.type = "text";
+
+            input.name =
+                `acompanante_${numero}`;
+
+            input.id =
+                `acompanante_${numero}`;
+
+            input.required = true;
+
+            input.placeholder =
+                "Nombre completo";
+
+
+            grupo.appendChild(label);
+
+            grupo.appendChild(input);
+
+            acompanantesContainer.appendChild(
+                grupo
+            );
+        }
+    }
+
+
+    if (totalPersonasInput) {
+
+        totalPersonasInput.addEventListener(
+            "input",
+            actualizarAcompanantes
+        );
+
+        actualizarAcompanantes();
+    }
     });
 
 

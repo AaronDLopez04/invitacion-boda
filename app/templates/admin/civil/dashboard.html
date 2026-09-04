@@ -1,8 +1,10 @@
 {% extends "admin/layout/admin_base.html" %}
 
+
 {% block titulo %}
 Boda Civil
 {% endblock %}
+
 
 {% block contenido %}
 
@@ -24,29 +26,45 @@ Boda Civil
             </span>
 
             <h1>
+
                 {{ boda.nombre_novia }}
                 &
                 {{ boda.nombre_novio }}
+
             </h1>
 
             <p>
+
                 Administración independiente
                 de la invitación civil.
+
             </p>
 
         </div>
 
+
         <div class="d-flex flex-wrap gap-2">
 
-            <a
-                href="{{ url_for(
-                    'admin_civil.nuevo_invitado'
-                ) }}"
-                class="btn btn-primary">
+    <a
+        href="{{ url_for(
+            'admin_civil.exportar_excel'
+        ) }}"
+        class="btn btn-success">
 
-                Nuevo invitado civil
+        📊 Exportar Excel
 
-            </a>
+    </a>
+
+    <a
+        href="{{ url_for(
+            'admin_civil.nuevo_invitado'
+        ) }}"
+        class="btn btn-primary">
+
+        Nuevo registro manual
+
+    </a>
+
 
             <a
                 href="{{ url_for(
@@ -57,6 +75,7 @@ Boda Civil
                 Configuración civil
 
             </a>
+
 
             <a
                 href="{{ url_for(
@@ -78,103 +97,143 @@ Boda Civil
 <div class="alert alert-info">
 
     <strong>
-        Estás administrando la boda civil.
+        Administración de la boda civil
     </strong>
 
-    Los invitados y confirmaciones de esta
-    sección no se mezclan con la boda religiosa.
+    <br>
+
+    Los registros de esta sección
+    corresponden únicamente a la
+    invitación civil.
 
 </div>
 
+
+<!-- ESTADÍSTICAS -->
 
 <div class="row g-4 mb-4">
 
+
     <div class="col-md-6 col-xl-3">
 
-        <div class="admin-card h-100 text-center">
+        <div
+            class="admin-card h-100 text-center">
 
             <p class="text-muted mb-2">
-                Invitaciones
+
+                Invitaciones registradas
+
             </p>
 
             <h2>
+
                 {{ total_invitados }}
+
             </h2>
 
         </div>
 
     </div>
 
+
     <div class="col-md-6 col-xl-3">
 
-        <div class="admin-card h-100 text-center">
+        <div
+            class="admin-card h-100 text-center">
 
             <p class="text-muted mb-2">
-                Pases disponibles
+
+                Personas registradas
+
             </p>
 
             <h2>
-                {{ total_pases }}
+
+                {{ total_personas }}
+
             </h2>
 
         </div>
 
     </div>
 
+
     <div class="col-md-6 col-xl-3">
 
-        <div class="admin-card h-100 text-center">
+        <div
+            class="admin-card h-100 text-center">
 
             <p class="text-muted mb-2">
+
                 Personas confirmadas
+
             </p>
 
             <h2>
-                {{ asistentes_confirmados }}
+
+                {{ personas_confirmadas }}
+
             </h2>
 
         </div>
 
     </div>
+
 
     <div class="col-md-6 col-xl-3">
 
-        <div class="admin-card h-100 text-center">
+        <div
+            class="admin-card h-100 text-center">
 
             <p class="text-muted mb-2">
-                Pendientes
+
+                Confirmación
+
             </p>
 
             <h2>
-                {{ pendientes }}
+
+                {{ porcentaje }}%
+
             </h2>
 
         </div>
 
     </div>
+
 
 </div>
 
 
+<!-- LISTA DE INVITADOS -->
+
 <div class="admin-card mb-4">
+
 
     <div
         class="d-flex flex-wrap
                justify-content-between
                align-items-center gap-3 mb-4">
 
+
         <div>
 
             <h3 class="mb-1">
-                Invitados civiles
+
+                Registros civiles
+
             </h3>
 
             <p class="text-muted mb-0">
-                Administra únicamente a quienes
-                recibirán la invitación civil.
+
+                Consulta quién confirmó y
+                quiénes asistirán con cada
+                invitado.
+
             </p>
 
         </div>
+
 
         <form
             method="GET"
@@ -187,6 +246,7 @@ Boda Civil
                 value="{{ busqueda }}"
                 placeholder="Buscar invitado">
 
+
             <button
                 type="submit"
                 class="btn btn-outline-primary">
@@ -194,6 +254,7 @@ Boda Civil
                 Buscar
 
             </button>
+
 
             {% if busqueda %}
 
@@ -216,6 +277,7 @@ Boda Civil
 
     {% if invitados %}
 
+
     <div class="table-responsive">
 
         <table
@@ -226,7 +288,7 @@ Boda Civil
                 <tr>
 
                     <th>
-                        Invitado
+                        Invitado principal
                     </th>
 
                     <th>
@@ -234,15 +296,15 @@ Boda Civil
                     </th>
 
                     <th class="text-center">
-                        Pases
+                        Personas
                     </th>
 
                     <th>
-                        Respuesta
+                        Acompañantes
                     </th>
 
                     <th class="text-center">
-                        Confirmados
+                        Estado
                     </th>
 
                     <th class="text-end">
@@ -253,19 +315,29 @@ Boda Civil
 
             </thead>
 
+
             <tbody>
+
 
                 {% for invitado in invitados %}
 
+
                 <tr>
+
+
+                    <!-- INVITADO PRINCIPAL -->
 
                     <td>
 
                         <strong>
+
                             {{ invitado.nombre }}
+
                         </strong>
 
-                        <div class="small text-muted">
+
+                        <div
+                            class="small text-muted">
 
                             Token:
                             {{ invitado.token }}
@@ -274,81 +346,176 @@ Boda Civil
 
                     </td>
 
+
+                    <!-- TELÉFONO -->
+
                     <td>
 
-                        {{ invitado.telefono or "Sin teléfono" }}
+                        {{ invitado.telefono
+                           or "Sin teléfono" }}
 
                     </td>
+
+
+                    <!-- PERSONAS -->
 
                     <td class="text-center">
 
-                        {{ invitado.pases }}
+                        <strong>
+
+                            {{ invitado.pases }}
+
+                        </strong>
+
+                        <div
+                            class="small text-muted">
+
+                            {% if invitado.pases == 1 %}
+
+                            persona
+
+                            {% else %}
+
+                            personas
+
+                            {% endif %}
+
+                        </div>
 
                     </td>
 
+
+                    <!-- ACOMPAÑANTES -->
+
                     <td>
 
-                        {% if invitado.respuesta == "si" %}
+                        {% if invitado.acompanantes %}
 
-                            <span class="badge text-bg-success">
-                                Sí asistirá
-                            </span>
+                            {% set acompanantes =
+                                invitado.acompanantes
+                                .splitlines() %}
 
-                        {% elif invitado.respuesta == "no" %}
 
-                            <span class="badge text-bg-danger">
-                                No asistirá
-                            </span>
+                            <div
+                                class="small">
+
+                                {% for acompanante
+                                    in acompanantes %}
+
+                                    <div class="mb-1">
+
+                                        <span
+                                            class="text-muted">
+                                            {{ loop.index }}.
+                                        </span>
+
+                                        {{ acompanante }}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
 
                         {% else %}
 
-                            <span class="badge text-bg-warning">
-                                Pendiente
+                            <span
+                                class="text-muted">
+
+                                Sin acompañantes
+
                             </span>
 
                         {% endif %}
 
                     </td>
 
+
+                    <!-- ESTADO -->
+
                     <td class="text-center">
 
-                        {{ invitado.asistentes_confirmados or 0 }}
+                        {% if invitado.respuesta == "si" %}
+
+                            <span
+                                class="badge
+                                       text-bg-success">
+
+                                Confirmado
+
+                            </span>
+
+                        {% elif invitado.respuesta == "no" %}
+
+                            <span
+                                class="badge
+                                       text-bg-danger">
+
+                                No asistirá
+
+                            </span>
+
+                        {% else %}
+
+                            <span
+                                class="badge
+                                       text-bg-warning">
+
+                                Pendiente
+
+                            </span>
+
+                        {% endif %}
 
                     </td>
 
+
+                    <!-- ACCIONES -->
+
                     <td class="text-end">
+
 
                         <div
                             class="d-flex flex-wrap
-                                   justify-content-end gap-2">
+                                   justify-content-end
+                                   gap-2">
+
+
                             <a
                                 href="{{ url_for(
                                     'civil.invitacion',
                                     token=invitado.token
                                 ) }}"
                                 target="_blank"
-                                class="btn btn-sm btn-outline-success">
+                                class="btn btn-sm
+                                       btn-outline-success">
 
                                 Abrir invitación
 
                             </a>
 
+
                             <button
                                 type="button"
-                                class="btn btn-sm btn-outline-secondary"
+                                class="btn btn-sm
+                                       btn-outline-secondary"
                                 data-url="{{ url_for(
                                     'civil.invitacion',
                                     token=invitado.token,
                                     _external=True
                                 ) }}"
-                                onclick="copiarInvitacionCivil(
-                                    this.dataset.url,
-                                    this
-                                )">
+                                onclick="
+                                    copiarInvitacionCivil(
+                                        this.dataset.url,
+                                        this
+                                    )
+                                ">
 
                                 Copiar enlace
 
                             </button>
+
+
                             <a
                                 href="{{ url_for(
                                     'admin_civil.editar_invitado',
@@ -360,6 +527,7 @@ Boda Civil
                                 Editar
 
                             </a>
+
 
                             <form
                                 method="POST"
@@ -384,13 +552,18 @@ Boda Civil
 
                             </form>
 
+
                         </div>
+
 
                     </td>
 
+
                 </tr>
 
+
                 {% endfor %}
+
 
             </tbody>
 
@@ -398,20 +571,30 @@ Boda Civil
 
     </div>
 
+
     {% else %}
+
 
     <div class="text-center py-5">
 
+
         <h4>
-            No hay invitados civiles
+
+            No hay registros civiles
+
         </h4>
+
 
         {% if busqueda %}
 
+
         <p class="text-muted">
+
             No se encontraron resultados
             para “{{ busqueda }}”.
+
         </p>
+
 
         <a
             href="{{ url_for(
@@ -423,12 +606,17 @@ Boda Civil
 
         </a>
 
+
         {% else %}
 
+
         <p class="text-muted">
-            Crea la primera invitación
-            para la boda civil.
+
+            Todavía no hay personas
+            registradas para la boda civil.
+
         </p>
+
 
         <a
             href="{{ url_for(
@@ -436,32 +624,53 @@ Boda Civil
             ) }}"
             class="btn btn-primary">
 
-            Crear invitado civil
+            Crear registro manual
 
         </a>
 
+
         {% endif %}
+
 
     </div>
 
+
     {% endif %}
+
 
 </div>
 
 
+<!-- RESUMEN -->
+
 <div class="row g-4">
+
 
     <div class="col-md-6">
 
+
         <div class="admin-card h-100">
 
+
             <h4>
+
                 Progreso de confirmación
+
             </h4>
+
+
+            <p class="text-muted">
+
+                Personas cuya asistencia
+                quedó registrada.
+
+            </p>
+
 
             <div
                 class="progress mt-4"
                 style="height: 22px;">
+
 
                 <div
                     class="progress-bar"
@@ -475,45 +684,77 @@ Boda Civil
 
                 </div>
 
+
             </div>
+
 
         </div>
 
+
     </div>
+
 
     <div class="col-md-6">
 
+
         <div class="admin-card h-100">
 
+
             <h4>
-                Resumen
+
+                Resumen de asistencia
+
             </h4>
+
 
             <p class="mb-2">
 
-                Invitaciones pendientes:
+                Invitaciones registradas:
 
                 <strong>
-                    {{ pendientes }}
+
+                    {{ total_invitados }}
+
                 </strong>
 
             </p>
+
+
+            <p class="mb-2">
+
+                Personas registradas:
+
+                <strong>
+
+                    {{ total_personas }}
+
+                </strong>
+
+            </p>
+
 
             <p class="mb-0">
 
-                Invitaciones que no asistirán:
+                Personas confirmadas:
 
                 <strong>
-                    {{ no_asistiran }}
+
+                    {{ personas_confirmadas }}
+
                 </strong>
 
             </p>
 
+
         </div>
+
 
     </div>
 
+
 </div>
+
+
 <script>
 
 async function copiarInvitacionCivil(
@@ -521,7 +762,8 @@ async function copiarInvitacionCivil(
     boton
 ) {
 
-    const textoOriginal = boton.textContent;
+    const textoOriginal =
+        boton.textContent;
 
     try {
 
@@ -529,11 +771,13 @@ async function copiarInvitacionCivil(
             enlace
         );
 
-        boton.textContent = "Copiado";
+        boton.textContent =
+            "Copiado";
 
         setTimeout(() => {
 
-            boton.textContent = textoOriginal;
+            boton.textContent =
+                textoOriginal;
 
         }, 1800);
 
@@ -551,3 +795,5 @@ async function copiarInvitacionCivil(
 </script>
 
 {% endblock %}
+
+

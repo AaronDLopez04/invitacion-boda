@@ -50,6 +50,12 @@ class InvitadoCivil(db.Model):
         nullable=True
     )
 
+    acompanantes = db.Column(
+    db.Text,
+    nullable=True
+    
+    )
+
     confirmado = db.Column(
         db.Boolean,
         nullable=False,

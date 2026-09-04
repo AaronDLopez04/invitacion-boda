@@ -507,10 +507,8 @@
 
 </section>
 
-
-
 <!-- ====================================
-         CONFIRMACIÓN DE ASISTENCIA
+     CONFIRMACIÓN DE ASISTENCIA
 ===================================== -->
 
 <section class="civil-section civil-rsvp">
@@ -524,42 +522,27 @@
             </span>
 
             <p>
-                RSVP
+                Confirmación
             </p>
 
             <h2>
-                Confirma tu asistencia
+                ¡Gracias por registrarte!
             </h2>
 
         </div>
-        
+
+
         {% if registro_guardado %}
-
-    <div class="civil-success-message">
-
-        <strong>
-            ¡Tu registro fue guardado!
-        </strong>
-
-    <p>
-        Gracias por confirmar tu asistencia.
-        Tu pase corresponde a una persona.
-    </p>
-
-</div>
-
-{% endif %}
-
-        {% if confirmacion_guardada %}
 
         <div class="civil-success-message">
 
             <strong>
-                ¡Gracias, {{ invitado.nombre }}!
+                ¡Tu registro fue guardado correctamente!
             </strong>
 
             <p>
-                Tu respuesta fue guardada correctamente.
+                Gracias por confirmar tu asistencia,
+                {{ invitado.nombre }}.
             </p>
 
         </div>
@@ -567,149 +550,62 @@
         {% endif %}
 
 
-        {% if invitado.respuesta == "si" %}
-
         <div class="civil-current-answer">
 
-            Actualmente confirmaste asistencia para
+            <p>
+                Hemos registrado tu asistencia para:
+            </p>
 
             <strong>
-                {{ invitado.asistentes_confirmados }}
-                {% if invitado.asistentes_confirmados == 1 %}
-                    persona.
+                {{ invitado.pases }}
+                {% if invitado.pases == 1 %}
+                    persona
                 {% else %}
-                    personas.
+                    personas
                 {% endif %}
             </strong>
 
-            Puedes modificar tu respuesta utilizando
-            el formulario.
-
         </div>
 
-        {% elif invitado.respuesta == "no" %}
+
+        {% if invitado.acompanantes %}
 
         <div class="civil-current-answer">
 
-            Actualmente indicaste que no podrás asistir.
+            <p>
+                Tus acompañantes son:
+            </p>
 
-            Puedes modificar tu respuesta utilizando
-            el formulario.
+            <ul>
+                {% for acompanante in invitado.acompanantes.splitlines() %}
+
+                <li>
+                    {{ acompanante }}
+                </li>
+
+                {% endfor %}
+            </ul>
 
         </div>
 
         {% endif %}
 
 
-        <form
-            method="POST"
-            action="{{ url_for(
-                'civil.confirmar',
-                token=invitado.token
-            ) }}"
-            class="civil-rsvp-form">
+        <div class="civil-success-message">
 
-            <fieldset>
+            <p>
+                Hemos guardado tus datos.
+                Nos dará mucha alegría compartir
+                este momento contigo.
+            </p>
 
-                <legend>
-                    ¿Podrás acompañarnos?
-                </legend>
+            <p>
+                Si necesitas modificar tu registro,
+                puedes comunicarte directamente
+                con los novios.
+            </p>
 
-                <label class="civil-option">
-
-                    <input
-                        type="radio"
-                        name="respuesta"
-                        value="si"
-                        {% if invitado.respuesta == "si" %}
-                            checked
-                        {% endif %}
-                        required>
-
-                    <span>
-                        Sí, asistiré
-                    </span>
-
-                </label>
-
-                <label class="civil-option">
-
-                    <input
-                        type="radio"
-                        name="respuesta"
-                        value="no"
-                        {% if invitado.respuesta == "no" %}
-                            checked
-                        {% endif %}
-                        required>
-
-                    <span>
-                        No podré asistir
-                    </span>
-
-                </label>
-
-            </fieldset>
-
-
-            <div
-                class="civil-form-group"
-                id="asistentes-group">
-
-                <label for="asistentes">
-                    ¿Cuántas personas asistirán?
-                </label>
-
-                <select
-                    name="asistentes"
-                    id="asistentes">
-
-                    {% for numero in range(
-                        1,
-                        invitado.pases + 1
-                    ) %}
-
-                    <option
-                        value="{{ numero }}"
-                        {% if invitado.asistentes_confirmados == numero %}
-                            selected
-                        {% endif %}>
-
-                        {{ numero }}
-
-                    </option>
-
-                    {% endfor %}
-
-                </select>
-
-            </div>
-
-
-            <div class="civil-form-group">
-
-                <label for="comentarios">
-                    Mensaje para los novios
-                </label>
-
-                <textarea
-                    name="comentarios"
-                    id="comentarios"
-                    rows="4"
-                    placeholder="Opcional">{{ invitado.comentarios or '' }}</textarea>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="civil-button civil-submit">
-
-                Guardar mi respuesta
-
-            </button>
-
-        </form>
+        </div>
 
     </div>
 

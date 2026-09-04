@@ -162,45 +162,69 @@ def invitacion_general():
     )
 
 
-@civil_bp.route(
-    "/registrar",
-    methods=["POST"]
-)
+@civil_bp.route("/registrar", methods=["POST"])
 def registrar_invitado():
-
     boda = obtener_boda_civil()
 
-    nombre = request.form.get(
-        "nombre",
-        ""
-    ).strip()
+    nombre = request.form.get("nombre", "").strip()
+    telefono = request.form.get("telefono", "").strip()
+    comentarios = request.form.get("comentarios", "").strip()
 
-    telefono = request.form.get(
-        "telefono",
-        ""
-    ).strip()
+    try:
+        total_personas = int(
+            request.form.get("total_personas", "1")
+        )
+    except ValueError:
+        total_personas = 0
 
-    comentarios = request.form.get(
-        "comentarios",
-        ""
-    ).strip()
-
+    # Validaciones básicas
     if not nombre:
-
         return redirect(
             url_for(
-                "civil.invitacion_general"
+                "civil.invitacion_general",
+                error="nombre"
             )
         )
+
+    if total_personas < 1:
+        return redirect(
+            url_for(
+                "civil.invitacion_general",
+                error="personas"
+            )
+        )
+
+    # Obtener nombres de los acompañantes
+    acompanantes = []
+
+    for numero in range(1, total_personas):
+        nombre_acompanante = request.form.get(
+            f"acompanante_{numero}",
+            ""
+        ).strip()
+
+        if not nombre_acompanante:
+            return redirect(
+                url_for(
+                    "civil.invitacion_general",
+                    error="acompanantes"
+                )
+            )
+
+        acompanantes.append(nombre_acompanante)
+
+    # Guardamos los nombres separados por salto de línea.
+    acompanantes_texto = "\n".join(acompanantes)
 
     invitado = InvitadoCivil(
         nombre=nombre,
         telefono=telefono,
-        pases=1,
+        pases=total_personas,
         token=generar_token_civil(),
         respuesta="si",
-        asistentes_confirmados=1,
+        asistentes_confirmados=total_personas,
         comentarios=comentarios,
+        acompanantes=acompanantes_texto,
         confirmado=True,
         fecha_confirmacion=datetime.now().strftime(
             "%d/%m/%Y %H:%M"
