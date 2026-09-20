@@ -13,7 +13,7 @@
     <section class="hero">
 
         <img
-            src="{{ url_for('static', filename='img/portada.jpg') }}"
+            src="{{ url_for('static', filename='img/portada.webp') }}"
             class="hero-image"
             alt="Portada">
 
@@ -167,7 +167,7 @@
         <div class="story-image">
 
             <img
-                src="{{ url_for('static', filename='img/historia.jpg') }}"
+                src="{{ url_for('static', filename='img/historia.webp') }}"
                 alt="Historia">
 
         </div>
@@ -519,28 +519,44 @@
 
 <section class="video-section">
 
-    <div class="section-header">
-
+    <div class="section-header video-section-header">
         <span>✦</span>
+        <h2>La pedida</h2>
+    </div>
 
-        <h2>El momento de la pedida</h2>
+    <p class="video-intro">
+        Un momento muy especial que queremos compartir contigo.
+    </p>
+
+    <div class="video-frame">
+
+        <div class="video-container">
+
+            <video
+                controls
+                class="wedding-video"
+                preload="metadata"
+                playsinline
+                poster="{{ url_for('static', filename='video/pedida.webp') }}"
+            >
+                <source
+                    src="{{ url_for('static', filename='video/pedida.mp4') }}"
+                    type="video/mp4">
+
+                Tu navegador no soporta video HTML5.
+            </video>
+
+        </div>
+
+        <div class="video-caption">
+            <span class="video-caption-line"></span>
+            <p>El comienzo de una nueva historia</p>
+            <span class="video-caption-line"></span>
+        </div>
 
     </div>
 
-    <div class="video-container">
-
-        <video controls class="wedding-video">
-
-            <source
-                src="{{ url_for('static', filename='video/pedida.mp4') }}"
-                type="video/mp4">
-
-            Tu navegador no soporta video HTML5.
-
-        </video>
-
-    </div>
-
+</section>
 <!-- ================= SPOTIFY ================= -->
 
 {% if spotify_embed %}
@@ -581,7 +597,7 @@
     <section class="photo-section">
 
         <img
-            src="{{ url_for('static', filename='img/pareja1.jpg') }}"
+            src="{{ url_for('static', filename='img/pareja1.webp') }}"
             class="large-photo"
             alt="Pareja">
 
@@ -649,7 +665,6 @@
 
 </section>
 
-<!-- ================= RSVP ================= -->
 
 <!-- ================= RSVP ================= -->
 

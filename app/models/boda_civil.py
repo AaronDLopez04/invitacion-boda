@@ -67,19 +67,19 @@ class BodaCivil(db.Model):
     imagen_1 = db.Column(
         db.String(255),
         nullable=True,
-        default="civil-1.jpg"
+        default="civil-1.webp"
     )
 
     imagen_2 = db.Column(
         db.String(255),
         nullable=True,
-        default="civil-2.jpg"
+        default="civil-2.webp"
     )
 
     imagen_3 = db.Column(
         db.String(255),
         nullable=True,
-        default="civil-3.jpg"
+        default="civil-3.webp"
     )
 
     imagen_4 = db.Column(

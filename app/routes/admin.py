@@ -446,9 +446,9 @@ def multimedia():
     if request.method == "POST":
 
         archivos = {
-            "portada": ("img", "portada.jpg"),
-            "historia": ("img", "historia.jpg"),
-            "pareja1": ("img", "pareja1.jpg"),
+            "portada": ("img", "portada.webp"),
+            "historia": ("img", "historia.webp"),
+            "pareja1": ("img", "pareja1.webp"),
             "video": ("video", "pedida.mp4")
         }
 

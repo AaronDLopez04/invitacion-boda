@@ -51,9 +51,9 @@ def obtener_boda_civil():
             mensaje_mesa_regalos=(
                 "Tu presencia es nuestro mejor regalo."
             ),
-            imagen_1="civil-1.jpg",
-            imagen_2="civil-2.jpg",
-            imagen_3="civil-3.jpg"
+            imagen_1="civil-1.webp",
+            imagen_2="civil-2.webp",
+            imagen_3="civil-3.webp"
         )
 
         db.session.add(boda)
