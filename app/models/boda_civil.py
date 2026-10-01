@@ -57,6 +57,11 @@ class BodaCivil(db.Model):
         nullable=True
     )
 
+    mesa_regalos_2 = db.Column(
+        db.String(500),
+        nullable=True
+    )
+
     mensaje_mesa_regalos = db.Column(
         db.Text,
         nullable=True

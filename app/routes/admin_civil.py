@@ -499,6 +499,13 @@ def configuracion():
             ).strip()
         )
 
+        boda_civil.mesa_regalos_2 = (
+            request.form.get(
+                "mesa_regalos_2",
+                ""
+            ).strip()
+        )
+
         boda_civil.mensaje_mesa_regalos = (
             request.form.get(
                 "mensaje_mesa_regalos",
