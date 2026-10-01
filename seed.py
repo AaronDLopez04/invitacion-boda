@@ -47,6 +47,8 @@ Hoy, guiados por la fe, decidimos amarnos frente a cualquier circunstancia, con 
 
             mesa_regalos="https://www.amazon.com.mx/wedding/guest-view/3RMIP8SGYVHJM",
 
+            mesa_regalos_2="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60038215",
+
             hospedaje="Para hospedaje comunicarse al +52 1 55 5973 8124",
 
             whatsapp_novio="+5215546864443",

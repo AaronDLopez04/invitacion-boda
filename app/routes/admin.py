@@ -418,6 +418,7 @@ def configuracion_boda():
         boda.codigo_vestimenta = request.form["codigo_vestimenta"]
 
         boda.mesa_regalos = request.form["mesa_regalos"]
+        boda.mesa_regalos_2 = request.form["mesa_regalos_2"]
         boda.hospedaje = request.form["hospedaje"]
 
         boda.whatsapp_novio = request.form["whatsapp_novio"]

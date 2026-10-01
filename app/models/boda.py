@@ -24,6 +24,8 @@ class Boda(db.Model):
     codigo_vestimenta = db.Column(db.String(200))
 
     mesa_regalos = db.Column(db.String(500))
+    mesa_regalos_2 = db.Column(db.String(500))
+
     hospedaje = db.Column(db.Text)
 
     whatsapp_novio = db.Column(db.String(30))
