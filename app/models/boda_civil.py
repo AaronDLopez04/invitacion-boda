@@ -62,6 +62,11 @@ class BodaCivil(db.Model):
         nullable=True
     )
 
+    pinterest_url = db.Column(
+        db.String(500),
+        nullable=True
+    )
+
     mensaje_mesa_regalos = db.Column(
         db.Text,
         nullable=True

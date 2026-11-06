@@ -370,7 +370,7 @@
 
         {% endif %}
 
-        {% if boda.mesa_regalos %}
+        {% if boda.mesa_regalos_2 %}
 
         <a
             href="{{ boda.mesa_regalos_2 }}"
@@ -384,6 +384,35 @@
 
         {% endif %}
 
+        {% if boda.pinterest_url %}
+
+        <section class="civil-pinterest">
+
+            <div class="civil-section-heading">
+
+                <span>✦</span>
+
+                <p>Nuestra inspiración</p>
+
+                <h2>Ideas para nuestro gran día</h2>
+
+            </div>
+
+            <div class="civil-pinterest-board">
+
+            <a
+            data-pin-do="embedBoard"
+            data-pin-board-width="900"
+            data-pin-scale-height="400"
+            data-pin-scale-width="80"
+            href="{{ boda.pinterest_url }}">
+            </a>
+
+            </div>
+
+        </section>
+
+        {% endif %}
 
         <div class="civil-transfer-box">
 
@@ -992,6 +1021,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
+<script async defer src="https://assets.pinterest.com/js/pinit.js"></script>
 
 </body>
 

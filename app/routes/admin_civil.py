@@ -513,6 +513,13 @@ def configuracion():
             ).strip()
         )
 
+        boda_civil.pinterest_url = (
+            request.form.get(
+            "pinterest_url",
+            ""
+            ).strip()
+        )
+
         boda_civil.imagen_1 = (
             request.form.get(
                 "imagen_1",

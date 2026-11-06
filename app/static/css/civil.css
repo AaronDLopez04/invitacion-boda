@@ -715,6 +715,27 @@ textarea {
 
 }
 
+/* ================= PINTEREST ================= */
+
+.civil-pinterest {
+    width: 100%;
+    padding: 55px 20px;
+    text-align: center;
+}
+
+.civil-pinterest-board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 25px auto 0;
+    overflow: hidden;
+}
+
+.civil-pinterest-board iframe {
+    max-width: 100%;
+}
+
 
 /*====================================
                 FOOTER
